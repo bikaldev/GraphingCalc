@@ -48,8 +48,8 @@ void CurveDrawer::draw(double (*f)(double), sf::RenderWindow& window)
 	sf::Vector2f startpos, endpos, controlpos;
 	float i = offset.x - origin.x;
 	vector<Cartesian> c;
-    queue<Token*> infix = StringToInfix(s);
-    queue<Token*> postfix = InfixToPostfix(infix);
+    	queue<Token*> infix = StringToInfix(s);
+    	queue<Token*> postfix = InfixToPostfix(infix);
 	//vector<Cartesian> CurveDrawer::ConvertExpression(s);
 	//add the equations here
 	while (i <= offset.x + X_range - origin.x)
@@ -93,7 +93,8 @@ void CurveDrawer::draw(double (*f)(double), sf::RenderWindow& window)
 		//i += period / scale;
 	}
 	Cartesian a,b;
-	for (size_t i = 0; i < c.size(); i++)
+	//here i<c.size() mustnot be used as at the end it goes out of bounds.
+	for (size_t i = 0; i < c.size()-1; i++)
 	{
 		a=c[i];
 		b=c[i+1];
