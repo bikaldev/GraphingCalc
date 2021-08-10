@@ -2,18 +2,18 @@
 
 #include "token.hpp"
 
-class RightBracket: public Token{
+class RightBracket : public Token
+{
 public:
-    // constructor
-    RightBracket(char t);
-    
-    // Return the type RIGHTBRACKET
-    TokenType TypeOf() const;
-    
-    
-    // Get the right bracket
-    char GetRightBracket();
+	// constructor
+	RightBracket(char t);
+
+	// Return the type RIGHTBRACKET
+	token::TokenType TypeOf() const;
+
+	// Get the right bracket
+	char GetRightBracket();
+
 private:
-    char _t;
-    
+	char _t;
 };

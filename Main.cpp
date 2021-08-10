@@ -34,5 +34,5 @@ int main()
 
 double quad(double x)
 {
-	return x * sin(2 * PI * x / 100);
+	return x * sin(x);
 }

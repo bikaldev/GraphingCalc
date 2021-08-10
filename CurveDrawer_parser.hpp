@@ -1,12 +1,18 @@
 #pragma once
 #include "BezierQuad.hpp"
+#include "cartesian.hpp"
+#include "shuntingyard.hpp"
 #include <SFML/Graphics.hpp>
 #include <cmath>
+#include <string>
+#include <vector>
 #define PI 3.1415
 
-class CurveDrawer
+class CurveDrawerParser
 {
 protected:
+	//this is the obtianed expression from text field
+	string s;
 	int X_range;
 	//The period of the sin and cosine fuction
 	int period;
@@ -18,8 +24,8 @@ protected:
 	sf::Vector2f origin, offset;
 
 public:
-	CurveDrawer() = default;
-	CurveDrawer(sf::Vector2f org, sf::Vector2f off, int x_range = 700, int amp = 1, int per = 200, int scale_fac = 4)
+	CurveDrawerParser() = default;
+	CurveDrawerParser(sf::Vector2f org, sf::Vector2f off, int x_range = 700, int amp = 1, int per = 200, int scale_fac = 4)
 	{
 		this->origin = org;
 		this->offset = off;
@@ -30,17 +36,25 @@ public:
 		scale = pow(2, scale_factor);
 	}
 
-	void draw(double (*f)(double), sf::RenderWindow& window);
+	void draw(sf::RenderWindow& window);
+
 	//void drawFromModel(LinReg& L, sf::RenderWindow& widow);
 };
 
-void CurveDrawer::draw(double (*f)(double), sf::RenderWindow& window)
+void CurveDrawerParser::draw(sf::RenderWindow& window)
 {
-	// double y = f(10) * 0;
+	this->s = "x * sin(x)";
 	sf::Vector2f startpos, endpos, controlpos;
 	float i = offset.x - origin.x;
+	//vector<sf::Vector2f> c;
+	queue<Token*> infix = StringToInfix(s);
+	queue<Token*> postfix = InfixToPostfix(infix);
+	//vector<Cartesian> CurveDrawer::ConvertExpression(s);
+	//add the equations here
 	while (i <= offset.x + X_range - origin.x)
 	{
+		// c.push_back(sf::Vector2f(EvaluatePostfix(postfix, i), i + y));
+
 		// //For Sine and Cosine Curves
 		// startpos.x = i + y;
 		// startpos.y = amplitude * -sin((2 * PI) * i / period);
@@ -53,11 +67,11 @@ void CurveDrawer::draw(double (*f)(double), sf::RenderWindow& window)
 
 		//For other curves
 		startpos.x = i;
-		startpos.y = amplitude * -f(i);
+		startpos.y = amplitude * -EvaluatePostfix(postfix, i);
 		controlpos.x = startpos.x + period / (2 * scale);
-		controlpos.y = amplitude * -f(i + period / (2 * scale));
+		controlpos.y = amplitude * -EvaluatePostfix(postfix, i + period / (2 * scale));
 		endpos.x = startpos.x + period / scale;
-		endpos.y = amplitude * -f(i + period / scale);
+		endpos.y = amplitude * -EvaluatePostfix(postfix, i + period / scale);
 
 		//Translate to the x-axis line
 		// startpos = startpos + sf::Vector2f(offset.x, origin.y);
@@ -71,12 +85,20 @@ void CurveDrawer::draw(double (*f)(double), sf::RenderWindow& window)
 		// {
 		beziersQuad(startpos, endpos, controlpos, 3.0f, window);
 		//Draw the curve
-		// }
+		//}
 
 		//DrawLineBezier(startpos,endpos,3.0,BLACK);
 		//Next iteration of curve
 		i += period / scale;
 	}
+	// sf::Vector2f a, b;
+	// for (size_t i = 0; i < c.size(); i++)
+	// {
+	// 	a = c[i];
+	// 	b = c[i + 1];
+	// 	sfLine line(a, b, 3.f);
+	// 	window.draw(line);
+	// }
 }
 
 // void CurveDrawer::drawFromModel(LinReg& L, sf::RenderWindow& window)

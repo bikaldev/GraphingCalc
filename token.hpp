@@ -4,23 +4,37 @@
 using namespace std;
 
 // Different types of tokens
-enum TokenType{OPERAND, OPERATOR, LEFTBRACKET, RIGHTBRACKET, SPACE, FUNCTION, VARIABLE, LETTER, COMMA, OTHER};
+namespace token
+{
+enum TokenType
+{
+	OPERAND,
+	OPERATOR,
+	LEFTBRACKET,
+	RIGHTBRACKET,
+	SPACE,
+	FUNCTION,
+	VARIABLE,
+	LETTER,
+	COMMA,
+	OTHER
+};
 
-class Token{
+}
+
+class Token
+{
 public:
-    
-    
-    
-    // Get the token type
-    virtual TokenType TypeOf() const = 0;
+	// Get the token type
+	virtual token::TokenType TypeOf() const = 0;
 };
 
 /*
 #pragma once
 //using pragma once here stopped the redifination of class error
 #include <SFML/Graphics.hpp>
-#include <iostream>
 #include <cmath>
+#include <iostream>
 
 using namespace std;
 

@@ -3,7 +3,6 @@
 #include <SFML/Graphics.hpp>
 #include <cmath>
 #include <iostream>
-#include "cartesian.hpp"
 
 using namespace std;
 
@@ -12,19 +11,19 @@ class sfLine : public sf::Drawable
 public:
 	sfLine()
 	{}
-	sfLine(const Cartesian& point1, const Cartesian& point2, const float& t) :
+	sfLine(const sf::Vector2f& point1, const sf::Vector2f& point2, const float& t) :
 		color(sf::Color::Red),
 		thickness(t),
 		vertices(sf::TriangleStrip, 4)
 	{
-		sf::Vector2f delta { (point2._x - point1._x), (point2._y - point1._y) };
+		sf::Vector2f delta { (point2.x - point1.x), (point2.y - point1.y) };
 		float length = sqrtf(delta.x * delta.x + delta.y * delta.y);
 		float scale = thickness / (2 * length);
 		sf::Vector2f radius = { -scale * delta.y, scale * delta.x };
-		vertices[0].position = { point1._x - radius.x, point1._y - radius.y };
-		vertices[1].position = { point1._x + radius.x, point1._y + radius.y };
-		vertices[2].position = { point2._x - radius.x, point2._y - radius.y };
-		vertices[3].position = { point2._x + radius.x, point2._y + radius.y };
+		vertices[0].position = { point1.x - radius.x, point1.y - radius.y };
+		vertices[1].position = { point1.x + radius.x, point1.y + radius.y };
+		vertices[2].position = { point2.x - radius.x, point2.y - radius.y };
+		vertices[3].position = { point2.x + radius.x, point2.y + radius.y };
 
 		for (int i = 0; i < 4; ++i)
 			vertices[i].color = color;
@@ -45,7 +44,7 @@ private:
 	sf::VertexArray vertices;
 	///sf::Color color;
 };
-/*
+
 class beziersQuad : public sfLine
 {
 private:
@@ -85,4 +84,3 @@ public:
 	~beziersQuad()
 	{}
 };
-*/

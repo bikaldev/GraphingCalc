@@ -2,13 +2,13 @@
 
 // Constructor
 Operand::Operand(double o): _operand(o){
-    
+
 }
 
 
 // Get the type Operand
-TokenType Operand::TypeOf() const{
-    return OPERAND;
+token::TokenType Operand::TypeOf() const{
+    return token::OPERAND;
 }
 
 // Get the value of operand
