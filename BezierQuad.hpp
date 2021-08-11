@@ -11,8 +11,8 @@ class sfLine : public sf::Drawable
 public:
 	sfLine()
 	{}
-	sfLine(const sf::Vector2f& point1, const sf::Vector2f& point2, const float& t) :
-		color(sf::Color::Red),
+	sfLine(const sf::Vector2f& point1, const sf::Vector2f& point2, const float& t, sf::Color c) :
+		color(c),
 		thickness(t),
 		vertices(sf::TriangleStrip, 4)
 	{
@@ -74,7 +74,7 @@ public:
 			current.y = a * startPos.y + b * controlPos.y + c * endPos.y;
 			current.x = a * startPos.x + b * controlPos.x + c * endPos.x;
 
-			sfLine lineq(previous, current, tn);
+			sfLine lineq(previous, current, tn, sf::Color::Blue);
 			thatwindow.draw(lineq);
 			//thatwindow.display();
 			previous = current;
