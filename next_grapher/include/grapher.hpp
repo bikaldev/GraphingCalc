@@ -3,7 +3,8 @@
 #include "etp.hpp"
 #include "points.hpp"
 #include "windowsize.hpp"
-
+//perhps we should make multiple of these
+//a certain string for a certain onject.
 class Grapher
 {
 private:
@@ -16,9 +17,13 @@ private:
     std::string exp;
 
 public:
+    Grapher(){}
+    Grapher(std::string k):exp{k}{}
     void init();
-    void main();
+    void main(sf::RenderWindow& window);
 };
+
+
 
 
 
