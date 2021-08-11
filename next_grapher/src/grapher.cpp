@@ -6,6 +6,7 @@
 void Grapher::init()
 {
     //thesse coordinates decide where on the window is the object to be viewd.
+    //this has been done for every graph
     MAX = 10;
     MIN = -10;
     INCREMENTS = 0.01;
@@ -19,25 +20,15 @@ void Grapher::init()
     //initialize the window
     window.create(sf::VideoMode(1000,1000),"Graphing Calculator");
     //perhaps we can add all the equations at once here
-    exp = "sin(x)";
 }
 
-void Grapher::main()
+void Grapher::main(sf::RenderWindow &window)
 {
-    while (window.isOpen())
-    {
-        sf::Event event;
-        while(window.pollEvent(event))
-        {
-            if(event.type == sf::Event::Closed)
-            {
-                window.close();
-            }
-        }
-    window.clear(sf::Color::Black);  
+    
      //let's display an implicit function form here.
     //lets edit this part later.
     //implicit_display(window, DefaultWindow);
+    //lets put the checker here
     c=convertor::Plotytox(exp, DefaultWindow);
     sf::Vector2f p1, p2;
     
@@ -55,8 +46,8 @@ void Grapher::main()
         
     }
     
-    imp_display(window, DefaultWindow);
+    //imp_display(window, DefaultWindow);
     window.display();
-    }
-    
 }
+    
+
