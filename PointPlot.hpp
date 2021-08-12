@@ -2,7 +2,6 @@
 #include "LinReg.hpp"
 #include "Matrix.hpp"
 #include "PointMarker.hpp"
-#include <iostream>
 #include <vector>
 
 class PointPlot
@@ -143,11 +142,15 @@ void PointPlot::markPoints(sf::RenderWindow& window)
 void PointPlot::fitPoints()
 {
 	int length = static_cast<int>(this->X.size());
+	if (length <= 0)
+	{
+		return;
+	}
 	Custom::Matrix X_mat(length, 1);
 	Custom::Matrix y_mat(length, 1);
 	X_mat(this->X);
 	y_mat(this->Y);
 	LinReg L(X_mat, y_mat, origin, offset, size, amplitude);
-	L.TrainModel(1);
+	L.TrainModel(2);
 	this->LinearReg = L;
 }

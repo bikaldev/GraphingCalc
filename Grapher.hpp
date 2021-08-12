@@ -2,6 +2,7 @@
 #include "CurveDrawer.hpp"
 #include "CurveDrawer_parser.hpp"
 #include "PointPlot.hpp"
+#include "windowsize.hpp"
 #include <SFML/Graphics.hpp>
 #include <cmath>
 #include <iostream>
@@ -10,8 +11,6 @@
 #define DRAG_SMOOTHNESS 0.03
 #define VIEW_HEIGHT 512.0f
 #define VIEW_WIDTH 512.0f
-
-double quad(double x);
 
 enum Zoom
 {
@@ -35,7 +34,7 @@ public:
 	~Grapher() {};
 
 	void drawLayout(sf::RenderWindow& window, bool isGridOn = false);
-	void drawCurve(double (*f)(double), sf::RenderWindow& window);
+	void drawCurve(std::string s, sf::RenderWindow& window);
 	void listenToLazyEvent(sf::Event& evnt, sf::RenderWindow& window);
 	void markPoints(sf::RenderWindow& window);
 	void listenToStaticEvents(sf::RenderWindow& window);
@@ -189,9 +188,9 @@ void Grapher::drawLayout(sf::RenderWindow& window, bool isGridOn)
 	}
 }
 
-void Grapher::drawCurve(double (*f)(double), sf::RenderWindow& window)
+void Grapher::drawCurve(std::string s, sf::RenderWindow& window)
 {
-	CurveDrawerParser(this->origin, this->offset, size, this->amplitude + (f(10) * 0), 200, 8).draw(window);
+	CurveDrawerParser(this->origin, this->offset, size, this->amplitude, 200, 8).draw(s, window);
 }
 
 void Grapher::listenToLazyEvent(sf::Event& evnt, sf::RenderWindow& window)

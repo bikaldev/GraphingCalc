@@ -31,18 +31,18 @@ public:
 	Matrix operator-(Matrix m2);
 	Matrix operator/(double);
 
-	virtual double operator()(int m, int n);
+	virtual double operator()(int m_row, int n_col);
 	void operator()(std::initializer_list<double> args);
 	void operator()(const double*);
 	void operator()(std::vector<double> mat);
 
 	void setElement(int a, int b, double val);
 
-	[[nodiscard]] int row() const
+	int row() const
 	{
 		return m;
 	};
-	[[nodiscard]] int column() const
+	int column() const
 	{
 		return n;
 	};

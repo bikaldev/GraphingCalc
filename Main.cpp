@@ -12,7 +12,7 @@ int main()
 		window.clear(sf::Color(150, 150, 150));
 		graph.drawLayout(window, true);
 		graph.listenToStaticEvents(window);
-		graph.drawCurve(quad, window);
+		graph.drawCurve("20 * sin((2 * 3.14159 * x)/100)", window);
 		sf::Event evnt;
 		while (window.pollEvent(evnt))
 		{
@@ -30,9 +30,4 @@ int main()
 		window.display();
 	}
 	return 0;
-}
-
-double quad(double x)
-{
-	return x * sin(x);
 }

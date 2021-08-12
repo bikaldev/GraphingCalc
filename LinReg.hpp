@@ -101,37 +101,35 @@ double LinReg::hypothesis(double x)
 
 void LinReg::drawFittedCurve(sf::RenderWindow& window)
 {
-	sf::Vector2f startpos, endpos, controlpos;
-	float i = offset.x - origin.x;
-	while (i <= offset.x + X_range - origin.x)
+	std::vector<Points> c;
+	WindowSize DefaultWindow;
+	DefaultWindow.ActualRange = Points((offset.x - origin.x) / amplitude, (offset.x + X_range - origin.x) / amplitude);
+	DefaultWindow.MagnifiedRange = Points(offset.x - origin.x, offset.x + X_range - origin.x);
+	DefaultWindow.plane.width = X_range;
+	DefaultWindow.plane.height = X_range;
+	DefaultWindow.plane.top = origin.y;
+	DefaultWindow.plane.left = origin.x;
+
+	//convert to screen points
+	Points b;
+	for (double i = DefaultWindow.ActualRange._x; i <= DefaultWindow.ActualRange._y; i += 0.01)
 	{
-		//For Sine and Cosine Curves
-		// startpos.x = i;
-		// startpos.y = amplitude * -sin((2 * PI) * i / period);
+		//std::cout<<"\n\n\n\n\n\n\nnope, I am the one being used\n\n\n\n\n\n\n\n\n\n";
+		b = convertor::Convert(Points(i, hypothesis(i)), DefaultWindow);
+		c.push_back(b);
+	}
 
-		// controlpos.x = startpos.x + period / (2 * scale);
-		// controlpos.y = amplitude * -sin((2 * PI) * (i + period / (2 * scale)) / period);
+	//Draw Curve
+	sf::Vector2f p1, p2;
 
-		// endpos.x = startpos.x + period / scale;
-		// endpos.y = amplitude * -sin((2 * PI * (i + period / scale)) / period);
+	for (size_t i = 0; i < c.size() - 1; i++)
+	{
+		p1.x = c[i]._x;
+		p1.y = c[i]._y;
 
-		startpos.x = i;
-		startpos.y = amplitude * hypothesis(i);
-
-		controlpos.x = startpos.x + period / (2 * scale);
-		controlpos.y = amplitude * hypothesis(i + period / (2 * scale));
-
-		endpos.x = startpos.x + period / scale;
-		endpos.y = amplitude * hypothesis(i + period / scale);
-
-		startpos = startpos + origin;
-		controlpos = controlpos + origin;
-		endpos = endpos + origin;
-
-		// if (endpos.y < offset.y + X_range && endpos.y > offset.y)
-		// {
-		beziersQuad(startpos, endpos, controlpos, 3.0f, window);
-		// }
-		i += period / scale;
+		p2.x = c[i + 1]._x;
+		p2.y = c[i + 1]._y;
+		sfLine line(p1, p2, 3.f, sf::Color::Blue);
+		window.draw(line);
 	}
 }
