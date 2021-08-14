@@ -1,3 +1,4 @@
+#pragma once
 #include <SFML/Graphics.hpp>
 #include <iostream>
 
@@ -34,8 +35,20 @@ class Button {
 	float y2 = 0;
 	int fineAdjust = 0;
 public:
+	//a constructor for this button is to be created.
+	Button(){}
+	//this is the parameterized constructor does this work?
+	//putting reference here doesn't work properly.
+	Button(float a, float b , std::string l)
+	{
+		Create();
+		setLabel(l);
+		setPosition(a, b);
+
+	}
 	sf::Sprite Sprite;
 	sf::Text Label;
+	bool once;
 	bool hover = false;
 	bool press = false;
 	bool click = false;
@@ -139,8 +152,69 @@ public:
 			return false;
 		}
 	}
-	void draw(sf::RenderWindow window) {
+	void draw(sf::RenderWindow& window) {
 		window.draw(Sprite);
 		window.draw(Label);
 	}
+
+	void listen(sf::RenderWindow& window, sf::Event& event);
+	void listen_events(sf::Event& event);
+	bool isEqn;
+	bool isPoints;
 };
+
+void Button::listen(sf::RenderWindow &window, sf::Event &event )
+{
+	sf::Vector2i mouse_position = sf::Mouse::getPosition(window);
+	float coorX = mouse_position.x;
+	float coorY = mouse_position.y;
+	if (coorX > x && coorX < x2 && coorY > y && coorY < y2) {
+			if (press != true) {
+				Sprite.setTexture(Hover);
+				setLabel(hoverLabel);
+				if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left))
+				{
+					if (this->label=="Equations")
+					{
+						isEqn = true;
+						isPoints = false;
+						click = true;
+						Sprite.setTexture(Click);
+					}
+					else if (this->label=="Points")
+					{
+						isPoints = true;
+						isEqn = false;
+						click = true;
+					}
+					
+					
+				}
+				
+			}
+			hover = true;
+			
+	}
+	else {
+		if (press != true) {
+			Sprite.setTexture(Idle);
+			setLabel(label);
+		}
+		hover = false;
+		
+	}
+	
+
+
+	
+	
+	
+}
+
+
+
+/*
+bool hover = false;
+bool press = false;
+bool click = false;
+*/
