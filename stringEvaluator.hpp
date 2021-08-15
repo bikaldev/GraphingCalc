@@ -1,3 +1,4 @@
+#include <SFML/Graphics.hpp>
 #include <iostream>
 #include <string>
 
@@ -18,6 +19,7 @@ struct CurveInfo
 {
 	CurveType type;
 	std::string equation;
+	sf::Color color;
 };
 
 class StringEvaluator

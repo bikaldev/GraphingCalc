@@ -36,6 +36,7 @@ public:
 
 	void setOrigin(sf::Vector2f org);
 	void setSize(float);
+	void setAmplitude(float);
 	void TrainModel(int, Fit::FitType);
 	double hypothesis(double);
 	void drawFittedCurve(sf::RenderWindow& window);
@@ -49,6 +50,10 @@ void LinReg::setOrigin(sf::Vector2f org)
 void LinReg::setSize(float s)
 {
 	CurveDrawer::X_range = s;
+}
+
+void LinReg::setAmplitude(float amp) {
+	CurveDrawer::amplitude = amp;
 }
 
 Custom::Matrix LinReg::addFeaturesandBias(Custom::Matrix X_design)

@@ -22,6 +22,7 @@ private:
 	std::vector<std::vector<double>> data;
 	sf::Vector2f origin;
 	WindowSize win;
+	sf::Color color;
 
 	double map(double value, double istart, double istop, double ostart, double ostop);
 	double f(double x, double y, std::queue<Token*>);									 // Function whose contour is to be plotted
@@ -33,14 +34,15 @@ private:
 
 public:
 	ImplicitPlotter() = default;
-	ImplicitPlotter(WindowSize w, sf::Vector2f org);
+	ImplicitPlotter(WindowSize w, sf::Vector2f org, sf::Color col = sf::Color::Red);
 	void display(std::string s, sf::RenderWindow& window);
 };
 
-ImplicitPlotter::ImplicitPlotter(WindowSize w, sf::Vector2f org)
+ImplicitPlotter::ImplicitPlotter(WindowSize w, sf::Vector2f org, sf::Color col)
 {
 	this->win = w;
 	this->origin = org;
+	this->color = col;
 }
 
 double ImplicitPlotter::map(double value, double istart, double istop, double ostart, double ostop)
@@ -173,7 +175,7 @@ void ImplicitPlotter::draw_one(int n, int i, int j, double a, double b, double c
 	y2 = map(y2, win.ActualRange._x, win.ActualRange._y, win.MagnifiedRange._x, win.MagnifiedRange._y) + origin.y;
 
 	sf::Vector2f p1 { static_cast<float>(x1), static_cast<float>(y1) }, p2 { static_cast<float>(x2), static_cast<float>(y2) };
-	sfLine obj(p1, p2, 3.f);
+	sfLine obj(p1, p2, 3.f, color);
 	window.draw(obj);
 }
 
@@ -231,7 +233,7 @@ void ImplicitPlotter::draw_opposite(int n, int i, int j, double a, double b, dou
 	y2 = map(y2, win.ActualRange._x, win.ActualRange._y, win.MagnifiedRange._x, win.MagnifiedRange._y) + origin.y;
 
 	sf::Vector2f p1 { static_cast<float>(x1), static_cast<float>(y1) }, p2 { static_cast<float>(x2), static_cast<float>(y2) };
-	sfLine obj(p1, p2, 3.f);
+	sfLine obj(p1, p2, 3.f, color);
 	window.draw(obj);
 }
 

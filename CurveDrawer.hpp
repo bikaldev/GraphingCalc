@@ -13,19 +13,22 @@ protected:
 	//The amplitude of the sine or cosine function
 	int amplitude;
 	sf::Vector2f origin, offset;
+	sf::Color color;
 
 public:
 	CurveDrawer() = default;
-	CurveDrawer(sf::Vector2f org, sf::Vector2f off, int x_range = 700, int amp = 1)
+	CurveDrawer(sf::Vector2f org, sf::Vector2f off, int x_range = 700, int amp = 1, sf::Color col = sf::Color::Blue)
 	{
 		this->origin = org;
 		this->offset = off;
+		this->color = col;
 		X_range = x_range;
 		amplitude = amp;
 	}
 
 	void drawYDep(std::string s, sf::RenderWindow& window);
 	void drawXDep(std::string s, sf::RenderWindow& window);
+	void setColor(sf::Color);
 	//void drawFromModel(LinReg& L, sf::RenderWindow& widow);
 };
 
@@ -50,7 +53,7 @@ void CurveDrawer::drawYDep(std::string s, sf::RenderWindow& window)
 
 		p2.x = c[i + 1]._x;
 		p2.y = c[i + 1]._y;
-		sfLine line(p1, p2, 3.f, sf::Color::Blue);
+		sfLine line(p1, p2, 3.f, color);
 		window.draw(line);
 	}
 }
@@ -76,77 +79,12 @@ void CurveDrawer::drawXDep(std::string s, sf::RenderWindow& window)
 
 		p2.x = c[i + 1]._x;
 		p2.y = c[i + 1]._y;
-		sfLine line(p1, p2, 3.f, sf::Color::Blue);
+		sfLine line(p1, p2, 3.f, color);
 		window.draw(line);
 	}
 }
 
-// void CurveDrawer::draw(double (*f)(double), sf::RenderWindow& window)
-// {
-// 	// double y = f(10) * 0;
-// 	sf::Vector2f startpos, endpos, controlpos;
-// 	float i = offset.x - origin.x;
-// 	while (i <= offset.x + X_range - origin.x)
-// 	{
-// 		// //For Sine and Cosine Curves
-// 		// startpos.x = i + y;
-// 		// startpos.y = amplitude * -sin((2 * PI) * i / period);
-
-// 		// controlpos.x = startpos.x + period / (2 * scale);
-// 		// controlpos.y = amplitude * -sin((2 * PI) * (i + period / (2 * scale)) / period);
-
-// 		// endpos.x = startpos.x + period / scale;
-// 		// endpos.y = amplitude * -sin((2 * PI * (i + period / scale)) / period);
-
-// 		//For other curves
-// 		startpos.x = i;
-// 		startpos.y = amplitude * -f(i);
-// 		controlpos.x = startpos.x + period / (2 * scale);
-// 		controlpos.y = amplitude * -f(i + period / (2 * scale));
-// 		endpos.x = startpos.x + period / scale;
-// 		endpos.y = amplitude * -f(i + period / scale);
-
-// 		//Translate to the x-axis line
-// 		// startpos = startpos + sf::Vector2f(offset.x, origin.y);
-// 		// controlpos = controlpos + sf::Vector2f(offset.x, origin.y);
-// 		// endpos = endpos + sf::Vector2f(offset.x, origin.y);
-// 		startpos = startpos + origin;
-// 		controlpos = controlpos + origin;
-// 		endpos = endpos + origin;
-
-// 		// if (endpos.y < offset.y + X_range && endpos.y > offset.y)
-// 		// {
-// 		beziersQuad(startpos, endpos, controlpos, 3.0f, window);
-// 		//Draw the curve
-// 		// }
-
-// 		//DrawLineBezier(startpos,endpos,3.0,BLACK);
-// 		//Next iteration of curve
-// 		i += period / scale;
-// 	}
-// }
-
-// void CurveDrawer::drawFromModel(LinReg& L, sf::RenderWindow& window)
-// {
-// 	sf::Vector2f startpos, endpos, controlpos;
-// 	float i = offset.x - origin.x;
-// 	while (i <= offset.x + X_range - origin.x - 0.4 * X_range)
-// 	{
-// 		startpos.x = i;
-// 		startpos.y = amplitude * -L.hypothesis(i);
-// 		controlpos.x = startpos.x + period / (2 * scale);
-// 		controlpos.y = amplitude * -L.hypothesis(i + period / (2 * scale));
-// 		endpos.x = startpos.x + period / scale;
-// 		endpos.y = amplitude * -L.hypothesis(i + period / scale);
-
-// 		startpos = startpos + origin;
-// 		controlpos = controlpos + origin;
-// 		endpos = endpos + origin;
-
-// 		if (endpos.y < offset.y + X_range && endpos.y > offset.y)
-// 		{
-// 			beziersQuad(startpos, endpos, controlpos, 3.0f, window);
-// 		}
-// 		i += period / scale;
-// 	}
-//}
+void CurveDrawer::setColor(sf::Color col)
+{
+	this->color = col;
+}

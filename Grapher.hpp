@@ -11,8 +11,8 @@
 #define MARGIN_RATIO 0.1
 #define GRID_SIZE 25
 #define DRAG_SMOOTHNESS 0.03
-#define VIEW_HEIGHT 512.0f
-#define VIEW_WIDTH 512.0f
+#define COLOR_MAX 255
+#define SEED 20
 
 enum Zoom
 {
@@ -46,15 +46,22 @@ private:
 	void drawAxes(sf::RenderWindow& window);
 	void drawGrid(sf::RenderWindow& window);
 	void drawBackground(sf::RenderWindow& window);
-	void drawYDepCurve(std::string s, sf::RenderWindow& window);
-	void drawXDepCurve(std::string s, sf::RenderWindow& window);
-	void drawImplicitCurve(std::string s, sf::RenderWindow& window);
+	void drawYDepCurve(CurveInfo info, sf::RenderWindow& window);
+	void drawXDepCurve(CurveInfo info, sf::RenderWindow& window);
+	void drawImplicitCurve(CurveInfo info, sf::RenderWindow& window);
 	void zoomInandOut(Zoom z_type, float factor = 1.5f);
 	void update(sf::Vector2f);
 	void setParams();
 	void setPointPlotterParams();
 	void reset();
 	void markPoints(sf::RenderWindow& window);
+
+private:
+	//inline
+	int randomRGB()
+	{
+		return rand() % 255;
+	}
 };
 
 Grapher::Grapher(float size, sf::Vector2f init_offset)
@@ -62,6 +69,7 @@ Grapher::Grapher(float size, sf::Vector2f init_offset)
 	this->size = size;
 	this->offset = init_offset;
 	this->amplitude = 19.0f;
+	srand(SEED);
 	setParams();
 }
 
@@ -106,7 +114,9 @@ void Grapher::addCurve(std::string s)
 	{
 		return;
 	}
-	curves.push_back(StringEvaluator::evaluate(s));
+	CurveInfo info = StringEvaluator::evaluate(s);
+	info.color = sf::Color(randomRGB(), randomRGB(), randomRGB());
+	curves.push_back(info);
 }
 
 void Grapher::draw(sf::RenderWindow& window)
@@ -119,13 +129,13 @@ void Grapher::draw(sf::RenderWindow& window)
 		switch (info.type)
 		{
 			case X_dep:
-				drawXDepCurve(info.equation, window);
+				drawXDepCurve(info, window);
 				break;
 			case Y_dep:
-				drawYDepCurve(info.equation, window);
+				drawYDepCurve(info, window);
 				break;
 			case Implicit:
-				drawImplicitCurve(info.equation, window);
+				drawImplicitCurve(info, window);
 				break;
 			case None:
 				//throw error
@@ -231,17 +241,17 @@ void Grapher::drawLayout(sf::RenderWindow& window, bool isGridOn)
 	}
 }
 
-void Grapher::drawYDepCurve(std::string s, sf::RenderWindow& window)
+void Grapher::drawYDepCurve(CurveInfo info, sf::RenderWindow& window)
 {
-	CurveDrawer(this->origin, this->offset, size, this->amplitude).drawYDep(s, window);
+	CurveDrawer(this->origin, this->offset, size, this->amplitude, info.color).drawYDep(info.equation, window);
 }
 
-void Grapher::drawXDepCurve(std::string s, sf::RenderWindow& window)
+void Grapher::drawXDepCurve(CurveInfo info, sf::RenderWindow& window)
 {
-	CurveDrawer(this->origin, this->offset, size, this->amplitude).drawXDep(s, window);
+	CurveDrawer(this->origin, this->offset, size, this->amplitude, info.color).drawXDep(info.equation, window);
 }
 
-void Grapher::drawImplicitCurve(std::string s, sf::RenderWindow& window)
+void Grapher::drawImplicitCurve(CurveInfo info, sf::RenderWindow& window)
 {
 	WindowSize DefaultWindow;
 	DefaultWindow.ActualRange = Points((offset.x - origin.x) / amplitude, (offset.x + size - origin.x) / amplitude);
@@ -250,7 +260,7 @@ void Grapher::drawImplicitCurve(std::string s, sf::RenderWindow& window)
 	DefaultWindow.plane.height = size;
 	DefaultWindow.plane.top = origin.y;
 	DefaultWindow.plane.left = origin.x;
-	ImplicitPlotter(DefaultWindow, origin).display(s, window);
+	ImplicitPlotter(DefaultWindow, origin, info.color).display(info.equation, window);
 }
 
 void Grapher::listenToLazyEvent(sf::Event& evnt, sf::RenderWindow& window)
