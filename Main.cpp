@@ -8,9 +8,9 @@ int main()
 	sf::RenderWindow window(sf::VideoMode(600, 600), "Graph Layout", sf::Style::Default);
 	Grapher graph(600.0f, sf::Vector2f(0.0f, 0.0f));
 	graph.addCurve("x = sin(y)");
-	// graph.addCurve("y = sin(x)");
-	// graph.addCurve("y = x + 10");
-	// graph.addCurve("y = x * sin(x)");
+	graph.addCurve("y = sin(x)");
+	graph.addCurve("y = x + 10");
+	graph.addCurve("y = x * sin(x)");
 	while (window.isOpen())
 	{
 		window.clear();
