@@ -8,7 +8,7 @@ std::vector<Points> convertor::Plotytox(std::string s, WindowSize& p)
 	Points b;
 	std::queue<Token*> infix = StringToInfix(s);
 	std::queue<Token*> postfix = InfixToPostfix(infix);
-	for (double i = p.ActualRange._x; i <= p.ActualRange._y; i += 0.01)
+	for (double i = p.ActualRange._x; i <= p.ActualRange._y; i += 0.1)
 	{
 		//std::cout<<"\n\n\n\n\n\n\nnope, I am the one being used\n\n\n\n\n\n\n\n\n\n";
 		b = convertor::Convert(Points(i, -EvaluatePostfix(postfix, i)), p);
@@ -28,10 +28,10 @@ std::vector<Points> convertor::Plotxtoy(std::string s, WindowSize& p)
 	Points b;
 	//why does this work?
 	//perhaps we should use the safe area idea.
-	for (double i = -400; i <= 400; i += 0.5)
+	for (double i = p.ActualRange._x; i <= p.ActualRange._y; i += 0.1)
 	{
 		//std::cout<<"\n\n\n\n\n\n\nI am the one being used\n\n\n\n\n\n\n\n\n\n";
-		b = convertor::Convert(Points(EvaluatePostfix(postfix, i), i), p);
+		b = convertor::Convert(Points(EvaluatePostfix(postfix, 0,i), i), p);
 		c.push_back(b);
 	}
 	return c;

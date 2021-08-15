@@ -53,6 +53,7 @@ string ParsedString::nextToken()
 		case token::LETTER: {
 			// j is the last position in the substring that is not a letter
 			int j = _s.find_first_not_of(letters, _pos);
+
 			s.assign(_s, _pos, j - _pos);
 
 			// then Convert the substring with letters into appropriate types
@@ -140,5 +141,9 @@ token::TokenType ParsedString::stringType()
 // Check if there is any string to parse
 bool ParsedString::isEmpty()
 {
+	if (static_cast<int>(_pos) < 0)
+	{
+		return true;
+	}
 	return static_cast<int>(_pos) >= static_cast<int>(_s.length());
 }

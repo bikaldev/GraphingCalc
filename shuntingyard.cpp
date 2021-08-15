@@ -16,6 +16,7 @@ queue<Token*> StringToInfix(string s)
 		switch (ps.getType())
 		{
 			case token::OPERAND:
+
 				// Get the number converted from the next string token
 				d = ps.getNumber();
 				output.push(new Operand(d));
@@ -126,7 +127,7 @@ queue<Token*> InfixToPostfix(queue<Token*> infix)
 }
 
 // Evaluate the postfix queue
-double EvaluatePostfix(queue<Token*> postfix, double x)
+double EvaluatePostfix(queue<Token*> postfix, double x, double y)
 {
 	stack<Token*> s;
 	Token* p;
@@ -145,7 +146,17 @@ double EvaluatePostfix(queue<Token*> postfix, double x)
 			}
 			// If the type of the node in the Queue is a variable, push it to the Stack as an Operand
 			case token::VARIABLE: {
-				s.push(new Operand(x));
+				switch (static_cast<Variable*>(p)->VariableTypeOf())
+				{
+					case X:
+						s.push(new Operand(x));
+						break;
+					case Y:
+						s.push(new Operand(y));
+						break;
+					default:
+						break;
+				}
 				break;
 			}
 			case token::RIGHTBRACKET:

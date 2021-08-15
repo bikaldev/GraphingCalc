@@ -24,11 +24,12 @@ public:
 		amplitude = amp;
 	}
 
-	void draw(std::string s, sf::RenderWindow& window);
+	void drawYDep(std::string s, sf::RenderWindow& window);
+	void drawXDep(std::string s, sf::RenderWindow& window);
 	//void drawFromModel(LinReg& L, sf::RenderWindow& widow);
 };
 
-void CurveDrawer::draw(std::string s, sf::RenderWindow& window)
+void CurveDrawer::drawYDep(std::string s, sf::RenderWindow& window)
 {
 	std::vector<Points> c;
 	WindowSize DefaultWindow;
@@ -40,6 +41,32 @@ void CurveDrawer::draw(std::string s, sf::RenderWindow& window)
 	DefaultWindow.plane.left = origin.x;
 
 	c = convertor::Plotytox(s, DefaultWindow);
+	sf::Vector2f p1, p2;
+
+	for (size_t i = 0; i < c.size() - 1; i++)
+	{
+		p1.x = c[i]._x;
+		p1.y = c[i]._y;
+
+		p2.x = c[i + 1]._x;
+		p2.y = c[i + 1]._y;
+		sfLine line(p1, p2, 3.f, sf::Color::Blue);
+		window.draw(line);
+	}
+}
+
+void CurveDrawer::drawXDep(std::string s, sf::RenderWindow& window)
+{
+	std::vector<Points> c;
+	WindowSize DefaultWindow;
+	DefaultWindow.ActualRange = Points((offset.y - origin.y) / amplitude, (offset.y + X_range - origin.y) / amplitude);
+	DefaultWindow.MagnifiedRange = Points(offset.y - origin.y, offset.y + X_range - origin.y);
+	DefaultWindow.plane.width = X_range;
+	DefaultWindow.plane.height = X_range;
+	DefaultWindow.plane.top = origin.y;
+	DefaultWindow.plane.left = origin.x;
+
+	c = convertor::Plotxtoy(s, DefaultWindow);
 	sf::Vector2f p1, p2;
 
 	for (size_t i = 0; i < c.size() - 1; i++)

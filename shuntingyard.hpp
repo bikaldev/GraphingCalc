@@ -18,5 +18,5 @@ queue<Token*> StringToInfix(string s);
 queue<Token*> InfixToPostfix(queue<Token*> infix);
 
 // Evaluate the postfix queue
-double EvaluatePostfix(queue<Token*> postfix, double x = 0);
+double EvaluatePostfix(queue<Token*> postfix, double x = 0, double y = 0);
 

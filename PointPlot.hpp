@@ -67,7 +67,7 @@ void PointPlot::setSize(float s)
 
 void PointPlot::setAmplitude(float amp)
 {
-	this->amplitude = 1 / amp;
+	this->amplitude = amp;
 }
 
 void PointPlot::listenToStaticEvent(sf::RenderWindow& window)

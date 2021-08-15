@@ -11,7 +11,7 @@ class sfLine : public sf::Drawable
 public:
 	sfLine()
 	{}
-	sfLine(const sf::Vector2f& point1, const sf::Vector2f& point2, const float& t, sf::Color c) :
+	sfLine(const sf::Vector2f& point1, const sf::Vector2f& point2, const float& t, sf::Color c = sf::Color::Blue) :
 		color(c),
 		thickness(t),
 		vertices(sf::TriangleStrip, 4)
