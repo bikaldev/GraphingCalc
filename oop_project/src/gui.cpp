@@ -29,6 +29,8 @@ Gui::Gui()
 	pointbox18 = new Column(sf::Vector2f { 245.f, 450.f }, "assets/arial.ttf");
 	pointbox19 = new Column(sf::Vector2f { 310.f, 450.f }, "assets/arial.ttf");
 
+	degree_entry = new Textbox(sf::Vector2f{40.f, 20.f}, sf::Vector2f{250.f, 550.f}, "assets/arial.ttf");
+
 	window.create(sf::VideoMode(1280, 720), "Graph Layout", sf::Style::Default);
 	graph = Grapher(1280.0f, sf::Vector2f(0.0f, 0.0f));
 	//for equations
@@ -656,6 +658,8 @@ void Gui::draw_points()
 	window.draw(add_col_1.Label);
 	window.draw(point_plot_1.Sprite);
 	window.draw(point_plot_1.Label);
+
+	window.draw(*degree_entry);
 	
 }
 
@@ -688,5 +692,7 @@ Gui::~Gui()
 	delete pointbox17;
 	delete pointbox18;
 	delete pointbox19;
+
+	delete degree_entry;
 
 }
