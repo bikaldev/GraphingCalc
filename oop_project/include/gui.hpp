@@ -97,6 +97,9 @@ private:
 	Column* pointbox18;
 	Column* pointbox19;
 
+	Textbox* degree_entry;
+	std::string degree_val = "1";
+
 	sf::RenderWindow window;
 	Grapher graph;
 
