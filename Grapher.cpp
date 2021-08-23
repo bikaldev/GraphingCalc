@@ -142,6 +142,16 @@ void Grapher::zoomInandOut(Zoom z_type, float factor)
 	this->origin.x += (this->origin.x - (size / 2)) * -factor;
 }
 
+void Grapher::zoomIn()
+{
+	zoomInandOut(Zoom::in);
+}
+
+void Grapher::zoomOut()
+{
+	zoomInandOut(Zoom::out);
+}
+
 void Grapher::drawBackground(sf::RenderWindow& window)
 {
 	sf::RectangleShape Background(sf::Vector2f(size, size));
@@ -271,31 +281,27 @@ void Grapher::listenToLazyEvent(sf::Event& evnt, sf::RenderWindow& window)
 	{
 		isMousePressed = false;
 	}
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::R))
-	{
-		reset();
-	}
-	if (evnt.type == sf::Event::Closed)
-	{
-		window.close();
-	}
+	// if (sf::Keyboard::isKeyPressed(sf::Keyboard::R))
+	// {
+	// 	reset();
+	// }
 	if (evnt.type == sf::Event::Resized)
 	{
 		float width = static_cast<float>(window.getSize().x);
 		this->size = width;
 		setParams();
 	}
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Z))
-	{
-		zoomInandOut(Zoom::in);
-		setPointPlotterParams();
-	}
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::O))
-	{
-		zoomInandOut(Zoom::out);
-		setPointPlotterParams();
-	}
-	this->pointPlotter.takeInput(evnt, window);
+	// if (sf::Keyboard::isKeyPressed(sf::Keyboard::Z))
+	// {
+	// 	zoomInandOut(Zoom::in);
+	// 	setPointPlotterParams();
+	// }
+	// if (sf::Keyboard::isKeyPressed(sf::Keyboard::O))
+	// {
+	// 	zoomInandOut(Zoom::out);
+	// 	setPointPlotterParams();
+	// }
+	// this->pointPlotter.takeInput(evnt, window);
 }
 
 void Grapher::markPoints(sf::RenderWindow& window)

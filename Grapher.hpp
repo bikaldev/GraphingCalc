@@ -49,6 +49,10 @@ public:
 	void fitPoints(int deg = 1);
 	void clearPoints();
 
+public:
+	void zoomIn();
+	void zoomOut();
+
 private:
 	void drawAxes(sf::RenderWindow& window);
 	void drawGrid(sf::RenderWindow& window);
