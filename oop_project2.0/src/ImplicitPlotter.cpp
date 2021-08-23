@@ -109,34 +109,7 @@ void ImplicitPlotter::draw_one(int n, int i, int j, double a, double b, double c
 		default:
 			break;
 	}
-	//lets just test the implicit convertor here and find the difference and not plot it
-	//Points po1{x1, y1}, po2{x2, y2};
-	//po1=implicit_convertor(po1, DefaultWindow);
-	//po2=implicit_convertor(po2, DefaultWindow);
-	/*
-	x1*=100;
-	x2*=100;
-	y1*=100;
-	y2*=100;
-	x1+=500;
-	x2+=500;
-	y1+=500;
-	y2+=500;
-	std::cout<<"This is sort of the data"<<std::endl;
-	std::cout<<x1<<"\t"<<y1<<std::endl;
-	std::cout<<x2<<"\t"<<y2<<std::endl;
-	*/
-	//std::cout<<x1<< " " <<y1<< " " <<x2<< " " <<y2<<std::endl;
-
-	//lines were beign drawn here
-	//sf::Vector2f p1, p2;
-	//p1.x=po1._x;
-	//p1.y=po1._y;
-	//p2.x=po2._x;
-	//p2.x=po2._y;
-	//sfLine line(p1,p2,4.f);
-	//window.draw(line);
-	//this process seems to work
+	
 	x1 = map(x1, win.ActualRange._x, win.ActualRange._y, win.MagnifiedRange._x, win.MagnifiedRange._y) + origin.x;
 	y1 = map(y1, win.ActualRange._x, win.ActualRange._y, win.MagnifiedRange._x, win.MagnifiedRange._y) + origin.y;
 	x2 = map(x2, win.ActualRange._x, win.ActualRange._y, win.MagnifiedRange._x, win.MagnifiedRange._y) + origin.x;
@@ -170,31 +143,7 @@ void ImplicitPlotter::draw_opposite(int n, int i, int j, double a, double b, dou
 		default:
 			break;
 	}
-	//lets just test the implicit convertor here and find the difference and not plot it
-	/*
-	x1*=100;
-	x2*=100;
-	y1*=100;
-	y2*=100;
-	x1+=500;
-	x2+=500;
-	y1+=500;
-	y2+=500;
-	std::cout<<"This is sort of the data"<<std::endl;
-	std::cout<<x1<<"\t"<<y1<<std::endl;
-	std::cout<<x2<<"\t"<<y2<<std::endl;
-	*/
-	//std::cout<<x1<< " " <<y1<< " " <<x2<< " " <<y2<<std::endl;
-
-	//lines were beign drawn here
-	/*
-	sf::Vector2f p1, p2;
-	p1.x=po1._x;
-	p1.y=po1._y;
-	p2.x=po2._x;
-	p2.x=po2._y;
-	sfLine line(p1,p2,4.f);
-    window.draw(line);*/
+	
 	x1 = map(x1, win.ActualRange._x, win.ActualRange._y, win.MagnifiedRange._x, win.MagnifiedRange._y) + origin.x;
 	y1 = map(y1, win.ActualRange._x, win.ActualRange._y, win.MagnifiedRange._x, win.MagnifiedRange._y) + origin.y;
 	x2 = map(x2, win.ActualRange._x, win.ActualRange._y, win.MagnifiedRange._x, win.MagnifiedRange._y) + origin.x;
@@ -236,16 +185,3 @@ void ImplicitPlotter::lines(int n, int i, int j, double a, double b, double c, d
 			break;
 	}
 }
-//this returns the equation
-//this is the part where we have to include the new parser
-/*
-this part might be obselete
-double ImplicitPlotter::f(double x, double y, std::queue<Token*> postfix)
-{
-	double z;
-	//perhaps we should include only this part to be called multiple times
-	z = EvaluatePostfix(postfix, x, y);
-	//std::cout<<"working here alright"<<std::endl;
-	return z;
-}
-*/

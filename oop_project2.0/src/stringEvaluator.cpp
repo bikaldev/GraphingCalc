@@ -27,7 +27,7 @@ std::string StringEvaluator::removeWhiteSpace(std::string str)
 	}
 	return newStr;
 }
-
+//for some reason when x*sin(x) is inputted it displays in implicit form, this needs to be corrected.
 CurveInfo StringEvaluator::evaluate(std::string str)
 {
 	str = removeWhiteSpace(str);
@@ -47,7 +47,7 @@ CurveInfo StringEvaluator::evaluate(std::string str)
 	}
 	else
 	{
-		std::cout << "Implicit" << std::endl;
+		//std::cout << "Implicit" << std::endl;
 		info.equation.assign(str.begin(), str.end() - 2);
 		info.type = Implicit;
 

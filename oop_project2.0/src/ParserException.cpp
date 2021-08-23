@@ -1,13 +1,25 @@
 #include "ParserException.hpp"
 
-std::string INVALIDOPERAND::message()
+INVALIDOPERAND::INVALIDOPERAND(std::string s)
 {
-    return "[ERROR]: The operand used is incorrect";
+    message = s;
+}
+
+std::string INVALIDOPERAND::get_message()
+{
+    return message;
 }
 
 
-std::string INVALIDFORMAT::message()
+INVALIDFORMAT::INVALIDFORMAT(std::string s)
 {
-    return "[ERROR]: The input format used is incorrect";
+    message = s;
 }
+
+std::string INVALIDFORMAT::get_message()
+{
+    return message;
+}
+
+
 

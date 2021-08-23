@@ -1,5 +1,6 @@
 
 #include "shuntingyard.hpp"
+#include "ParserException.hpp"
 Parser::Parser(std::string s):exp{s}
 {
     //this doesn't work
@@ -14,6 +15,8 @@ void Parser::StringToInfix()
 	string temp;
 	char t;
 	double d;
+	unsigned int left_bracket_num = 0;
+	unsigned int right_bracket_num = 0;
 	// Loop until no other string to parse
 	// Each time we get a new token, push to the output queue
 	while (!ps.isEmpty())
@@ -34,16 +37,14 @@ void Parser::StringToInfix()
 			case token::LEFTBRACKET:
 				t = temp[0];
 				infix_expr.push(new LeftBracket(t));
+				left_bracket_num++;
 				break;
 			case token::RIGHTBRACKET:
 				t = temp[0];
 				infix_expr.push(new RightBracket(t));
+				right_bracket_num++;
 				break;
-			// When there is SPACE or COMMA, do nothing
-			//case token::SPACE:
-			//	break;
-			//case token::COMMA:
-			//	break;
+			
 			case token::VARIABLE:
 			//we have an exception here dealt using if.
 				if (!infix_expr.empty())
@@ -52,19 +53,7 @@ void Parser::StringToInfix()
 					{
 						//this case works perfectly fine but there seems to be some problem with the variable case used here.
 						case token::OPERAND:
-							//add a new multiplication operator here.
-							//this adds a multiplication sign to the output queue 
 							infix_expr.push(new Operator('*'));
-							//std::cout<<"i was used here operand and variable"<<std::endl;
-							//this seems to work in a loop
-							break;
-						//why does this not work
-						case token::VARIABLE:
-							//add a new multiplication operator here.
-							//this adds a multiplication sign to the output queue 
-							infix_expr.push(new Operator('*'));
-							std::cout<<"i was used here"<<std::endl;
-							//this seems to work in a loop
 							break;
 						default:
 							break;
@@ -82,10 +71,16 @@ void Parser::StringToInfix()
 				break;
 		}
 	}
+	if (left_bracket_num != right_bracket_num)
+	{
+		throw INVALIDFORMAT("Right or Left Bracket missing in the expression");
+	}
+	
 	//return output;
 }
 
 // Convert an infix queue to a postfix queue
+//lets raise a error here if the code is incorrect ie. displaced operands.
 void Parser::InfixToPostfix()
 {
 	//queue<Token*> postfix;
@@ -198,33 +193,61 @@ double Parser::EvaluatePostfix(double x, double y)
 				break;
 			case token::LETTER:
 				break;
-			//case token::SPACE:
-			//	break;
-			//case token::COMMA:
-			//	break;
 			case token::OTHER:
 				break;
 			// If the type is an operator, get the operator, pop at the Stack, do the operation then push the result to the Stack
 			case token::OPERATOR: {
-				// For unary operators
-				if (output_stack.size() == 1)
-				{
-					right = static_cast<Operand*>(output_stack.top())->GetOperand();
-					output_stack.pop();
-					output = static_cast<Operator*>(p)->evaluate(left, right);
-				}
-				// For regular operators
-				else
-				{
-					right = static_cast<Operand*>(output_stack.top())->GetOperand();
-					output_stack.pop();
-					left = static_cast<Operand*>(output_stack.top())->GetOperand();
-					output_stack.pop();
-					output = static_cast<Operator*>(p)->evaluate(left, right);
-				}
 
+				if (!output_stack.empty())
+				{
+					
+				try
+				{
+					if (output_stack.size() == 1)
+					{
+						//the problem comes here when we use unary operatos.
+						right = static_cast<Operand*>(output_stack.top())->GetOperand();
+						output_stack.pop();
+						output = static_cast<Operator*>(p)->evaluate(left, right);
+					}
+					// For regular operators
+					else
+					{
+						//this is the place where the error occurs if the operand is the first member used.
+						//since there is no term in front of the operand as it is the first term in the solution
+						right = static_cast<Operand*>(output_stack.top())->GetOperand();
+						output_stack.pop();
+						left = static_cast<Operand*>(output_stack.top())->GetOperand();
+						output_stack.pop();
+						output = static_cast<Operator*>(p)->evaluate(left, right);
+					}
+
+				}
+				catch(INVALIDOPERAND e)
+				{
+					std::cerr << e.get_message() << '\n';
+				}
+				//use this to put x=0
+				catch(IMAGINARY)
+				{
+					//this might be a better option because this ensures that the nothing is drawn. The previous solution only made sure that the terminal point is origin which isn't alwaays true
+					//termination of programs might be a better option here.
+					output = 1000;
+				}
+				
+				
 				output_stack.push(new Operand(output));
 				break;
+				}
+				else
+				{
+					//perhaps we can throw something here, or create a new way to handle this.
+					std::cout<<"this has been handled"<<std::endl;
+					break;
+				}
+				
+				//break;
+				
 			}
 			// If the type is a function, pop the operand at the stack and push the result to the Stack
 			case token::FUNCTION: {
@@ -238,6 +261,7 @@ double Parser::EvaluatePostfix(double x, double y)
 						break;
 					}
 					// For function of two arguments (min, max)
+					//this might also not be necessary
 					case ftype::TWO_ARGUMENT: {
 						right = static_cast<Operand*>(output_stack.top())->GetOperand();
 						output_stack.pop();
@@ -264,11 +288,7 @@ Parser::~Parser()
 {
     while (!postfix_expr.empty())
     {
-            //does this not work because we are trying to push a base object in a derived class.
-            //just by changing the code from front to back the seg fault was removed.
             Token* k = postfix_expr.front();
-            //a seg fault does occur here.
-            //the error here still occurs even if the member of the pointer is removed
             delete k;
             k=NULL;
             postfix_expr.pop();

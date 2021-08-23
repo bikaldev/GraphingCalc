@@ -37,6 +37,7 @@ double Function::evaluate(const double& a)
 	else if (_function == "cos")
 		return cos(a);
 	else if (_function == "tan")
+		//the tangent curves are of variable length whatever we do here.
 		return tan(a);
 	else if (_function == "cot")
 		return 1 / tan(a);

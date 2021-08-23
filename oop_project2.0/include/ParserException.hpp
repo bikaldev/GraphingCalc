@@ -1,15 +1,25 @@
+#pragma once
 #include <iostream>
 #include <sstream>
 
 class INVALIDOPERAND
 {
+    private:
+        std::string message;
     public:
-        std::string message();
+        INVALIDOPERAND(std::string s);
+        std::string get_message();
 
 };
 
+class IMAGINARY{};
+//we dont really need this one right now
 class INVALIDFORMAT
 {
+    private:
+        std::string message;
     public:
-        std::string message();
+        INVALIDFORMAT(std::string s);
+        std::string get_message();
 };
+

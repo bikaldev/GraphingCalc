@@ -1,4 +1,5 @@
 #include "parsedstring.hpp"
+#include "ParserException.hpp"
 
 // Constructor
 Tokenizer::Tokenizer(string s)
@@ -78,6 +79,11 @@ token::TokenType Tokenizer::convertToOtherTypes(string s)
 		_type = token::VARIABLE;
 	else if (s == "sin" || s == "cos" || s == "tan" || s == "cot" || s == "sec" || s == "csc" || s == "ln" || s == "exp" || s == "min" || s == "max")
 		_type = token::FUNCTION;
+	else
+	{
+		throw INVALIDFORMAT("Invalid funtion or variable name.");
+	}
+	
 
 	return _type;
 }
@@ -115,12 +121,6 @@ token::TokenType Tokenizer::stringType()
 
 	else if (right_pos != -1)
 		_type = token::RIGHTBRACKET;
-
-	//else if (space_pos != -1)
-	//	_type = token::SPACE;
-
-	//else if (comma_pos != -1)
-	//	_type = token::COMMA;
 
 	else if (letter_pos != -1)
 		_type = token::LETTER;

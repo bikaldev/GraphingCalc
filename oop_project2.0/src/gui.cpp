@@ -8,31 +8,39 @@ Gui::Gui()
 	tb3 = new Textbox(sf::Vector2f { tb_w, tb_h }, sf::Vector2f { sp_x, sp_y + tb_h * 2 + 40.f * 2 }, "assets/arial.ttf");
 	tb4 = new Textbox(sf::Vector2f { tb_w, tb_h }, sf::Vector2f { sp_x, sp_y + tb_h * 3 + 40.f * 3 }, "assets/arial.ttf");
 
-	pointbox0 = new Column(sf::Vector2f { 50.f, 150.f }, "assets/arial.ttf");
-	pointbox1 = new Column(sf::Vector2f { 115.f, 150.f }, "assets/arial.ttf");
-	pointbox2 = new Column(sf::Vector2f { 180.f, 150.f }, "assets/arial.ttf");
-	pointbox3 = new Column(sf::Vector2f { 245.f, 150.f }, "assets/arial.ttf");
-	pointbox4 = new Column(sf::Vector2f { 310.f, 150.f }, "assets/arial.ttf");
-	pointbox5 = new Column(sf::Vector2f { 50.f, 250.f }, "assets/arial.ttf");
-	pointbox6 = new Column(sf::Vector2f { 115.f, 250.f }, "assets/arial.ttf");
-	pointbox7 = new Column(sf::Vector2f { 180.f, 250.f }, "assets/arial.ttf");
-	pointbox8 = new Column(sf::Vector2f { 245.f, 250.f }, "assets/arial.ttf");
-	pointbox9 = new Column(sf::Vector2f { 310.f, 250.f }, "assets/arial.ttf");
-	pointbox10 = new Column(sf::Vector2f { 50.f, 350.f }, "assets/arial.ttf");
-	pointbox11 = new Column(sf::Vector2f { 115.f, 350.f }, "assets/arial.ttf");
-	pointbox12 = new Column(sf::Vector2f { 180.f, 350.f }, "assets/arial.ttf");
-	pointbox13 = new Column(sf::Vector2f { 245.f, 350.f }, "assets/arial.ttf");
-	pointbox14 = new Column(sf::Vector2f { 310.f, 350.f }, "assets/arial.ttf");
-	pointbox15 = new Column(sf::Vector2f { 50.f, 450.f }, "assets/arial.ttf");
-	pointbox16 = new Column(sf::Vector2f { 115.f, 450.f }, "assets/arial.ttf");
-	pointbox17 = new Column(sf::Vector2f { 180.f, 450.f }, "assets/arial.ttf");
-	pointbox18 = new Column(sf::Vector2f { 245.f, 450.f }, "assets/arial.ttf");
-	pointbox19 = new Column(sf::Vector2f { 310.f, 450.f }, "assets/arial.ttf");
+	pointbox[0] = new Column(sf::Vector2f { 50.f, 150.f }, "assets/arial.ttf");
+	pointbox[1] = new Column(sf::Vector2f { 115.f, 150.f }, "assets/arial.ttf");
+	pointbox[2] = new Column(sf::Vector2f { 180.f, 150.f }, "assets/arial.ttf");
+	pointbox[3] = new Column(sf::Vector2f { 245.f, 150.f }, "assets/arial.ttf");
+	pointbox[4] = new Column(sf::Vector2f { 310.f, 150.f }, "assets/arial.ttf");
+	pointbox[5] = new Column(sf::Vector2f { 50.f, 250.f }, "assets/arial.ttf");
+	pointbox[6] = new Column(sf::Vector2f { 115.f, 250.f }, "assets/arial.ttf");
+	pointbox[7] = new Column(sf::Vector2f { 180.f, 250.f }, "assets/arial.ttf");
+	pointbox[8] = new Column(sf::Vector2f { 245.f, 250.f }, "assets/arial.ttf");
+	pointbox[9] = new Column(sf::Vector2f { 310.f, 250.f }, "assets/arial.ttf");
+	pointbox[10] = new Column(sf::Vector2f { 50.f, 350.f }, "assets/arial.ttf");
+	pointbox[11] = new Column(sf::Vector2f { 115.f, 350.f }, "assets/arial.ttf");
+	pointbox[12] = new Column(sf::Vector2f { 180.f, 350.f }, "assets/arial.ttf");
+	pointbox[13] = new Column(sf::Vector2f { 245.f, 350.f }, "assets/arial.ttf");
+	pointbox[14] = new Column(sf::Vector2f { 310.f, 350.f }, "assets/arial.ttf");
+	pointbox[15] = new Column(sf::Vector2f { 50.f, 450.f }, "assets/arial.ttf");
+	pointbox[16] = new Column(sf::Vector2f { 115.f, 450.f }, "assets/arial.ttf");
+	pointbox[17] = new Column(sf::Vector2f { 180.f, 450.f }, "assets/arial.ttf");
+	pointbox[18] = new Column(sf::Vector2f { 245.f, 450.f }, "assets/arial.ttf");
+	pointbox[19] = new Column(sf::Vector2f { 310.f, 450.f }, "assets/arial.ttf");
 
-	degree_entry = new Textbox(sf::Vector2f{40.f, 20.f}, sf::Vector2f{250.f, 550.f}, "assets/arial.ttf");
+	degree =  new Textbox(sf::Vector2f{40.f, 30.f}, sf::Vector2f{250.f, 550.f}, "assets/arial.ttf");
+	//sf::Font font;
+    font.loadFromFile("assets/arial.ttf");
+    deg.setFont(font);
+	deg.setString("Degree:");
+	deg.setPosition(sf::Vector2f(180.f, 550.f));
+	deg.setFillColor(sf::Color::Black);
+	deg.setCharacterSize(20);
 
-	window.create(sf::VideoMode(1280, 720), "Graph Layout", sf::Style::Default);
-	graph = Grapher(1280.0f, sf::Vector2f(0.0f, 0.0f));
+
+	window.create(sf::VideoMode(1280.0f, 720.0f), "Graph Layout", sf::Style::Default);
+	graph = Grapher(sf::Vector2f(1280.0f, 720.0f), sf::Vector2f(0.0f, 0.0f));
 	//for equations
 	eqns.setLabel("Equations");
 	eqns.Create();
@@ -105,6 +113,13 @@ Gui::Gui()
 	add_button.Create();
 	add_button.setPosition(50.f, 600.f);
 
+	//Error handling elements initialization
+	error_msg = "";
+	error.setString(error_msg);
+	error.setPosition(sf::Vector2f(0.3 * VIEW_WIDTH, 0.95 * VIEW_WIDTH));
+	error.setFillColor(sf::Color::Red);
+	error.setCharacterSize(25);
+
 	//now we create pointboxes
 	//four different pointboxes need to be created
 }
@@ -128,26 +143,28 @@ void Gui::main()
 			tb4->listenForText(evnt);
 
 			//for some reason this is not working
-			pointbox0->listenforText(evnt);
-			pointbox1->listenforText(evnt);
-			pointbox2->listenforText(evnt);
-			pointbox3->listenforText(evnt);
-			pointbox4->listenforText(evnt);
-			pointbox5->listenforText(evnt);
-			pointbox6->listenforText(evnt);
-			pointbox7->listenforText(evnt);
-			pointbox8->listenforText(evnt);
-			pointbox9->listenforText(evnt);
-			pointbox10->listenforText(evnt);
-			pointbox11->listenforText(evnt);
-			pointbox12->listenforText(evnt);
-			pointbox13->listenforText(evnt);
-			pointbox14->listenforText(evnt);
-			pointbox15->listenforText(evnt);
-			pointbox16->listenforText(evnt);
-			pointbox17->listenforText(evnt);
-			pointbox18->listenforText(evnt);
-			pointbox19->listenforText(evnt);
+			pointbox[0]->listenforText(evnt);
+			pointbox[1]->listenforText(evnt);
+			pointbox[2]->listenforText(evnt);
+			pointbox[3]->listenforText(evnt);
+			pointbox[4]->listenforText(evnt);
+			pointbox[5]->listenforText(evnt);
+			pointbox[6]->listenforText(evnt);
+			pointbox[7]->listenforText(evnt);
+			pointbox[8]->listenforText(evnt);
+			pointbox[9]->listenforText(evnt);
+			pointbox[10]->listenforText(evnt);
+			pointbox[11]->listenforText(evnt);
+			pointbox[12]->listenforText(evnt);
+			pointbox[13]->listenforText(evnt);
+			pointbox[14]->listenforText(evnt);
+			pointbox[15]->listenforText(evnt);
+			pointbox[16]->listenforText(evnt);
+			pointbox[17]->listenforText(evnt);
+			pointbox[18]->listenforText(evnt);
+			pointbox[19]->listenforText(evnt);
+
+			degree->listenForText(evnt);
 
 			graph.listenToLazyEvent(evnt, window);
 			switch (evnt.type)
@@ -193,12 +210,15 @@ void Gui::main()
 		window.draw(ptns.Sprite);
 		window.draw(ptns.Label);
 
+		window.draw(error);
+
 		window.display();
 	}
 }
 
 void Gui::draw_equations()
 {
+	//add delete stuff
 	//parts that are needed to draw the equations.
 	btn1.listen(window);
 	tb1->listenForClick(window);
@@ -208,29 +228,57 @@ void Gui::draw_equations()
 	{
 		//here if edited the previous plot remains as well this needs to be taken care of
 		btn1_clicked = true;
-		btn1_click_count ++ ;
-		//graph.addCurve(tb1->getString(), 1);
+		btn1_click_count++;
+		try
+		{
+			graph.addCurve(tb1->getString(), 1);
+		}
+		catch (FORMATERROR e)
+		{
+			error_msg = e.message();
+		}
 	}
 	if (btn2.clicked == true)
 	{
 		//here if edited the previous plot remains as well this needs to be taken care of
 		btn2_clicked = true;
-		btn2_click_count ++ ;
-		//graph.addCurve(tb2->getString(), 2);
+		btn2_click_count++;
+		try
+		{
+			graph.addCurve(tb2->getString(), 2);
+		}
+		catch (FORMATERROR e)
+		{
+			error_msg = e.message();
+		}
 	}
 	if (btn3.clicked == true)
 	{
 		//here if edited the previous plot remains as well this needs to be taken care of
 		btn3_clicked = true;
-		btn3_click_count ++ ;
-		//graph.addCurve(tb3->getString(), 3);
+		btn3_click_count++;
+		try
+		{
+			graph.addCurve(tb3->getString(), 3);
+		}
+		catch (FORMATERROR e)
+		{
+			error_msg = e.message();
+		}
 	}
 	if (btn4.clicked == true)
 	{
 		//here if edited the previous plot remains as well this needs to be taken care of
 		btn4_clicked = true;
-		btn4_click_count ++ ;
-		//graph.addCurve(tb4->getString(), 4);
+		btn4_click_count++;
+		try
+		{
+			graph.addCurve(tb4->getString(), 4);
+		}
+		catch (FORMATERROR e)
+		{
+			error_msg = e.message();
+		}
 	}
 
 	if (add.clicked == true)
@@ -238,91 +286,7 @@ void Gui::draw_equations()
 		total_click++;
 		add_clicked = true;
 	}
-	//this code just undrawed an already drawn button.
-	//this is the exact code to implement switching.
-	//we might encounter one problem here.
-	if (btn1_clicked == true)
-	{
-		//we can check for new updates in the code.
-		//check if the click count is more than one
-		//if so check if the old string and new string are different then delete the old string and use the new one.
-		if (btn1_click_count == 1)
-		{
-			val_1 = tb1->getString();
-			graph.addCurve(val_1, 1);
-		}
-		//perhaps this code might work itself or atleast work for the first time, after which this code probably doesn't work.
-		if (btn1_click_count > 1 && val_1 != tb1->getString())
-		{
-			//write the formula to delete the curve here.
-			val_1 = tb1->getString();
-			graph.addCurve(val_1, 1);
-		}
-		
-		
-	}
 
-	if (btn2_clicked == true)
-	{
-		//we can check for new updates in the code.
-		//check if the click count is more than one
-		//if so check if the old string and new string are different then delete the old string and use the new one.
-		if (btn2_click_count == 1)
-		{
-			val_2 = tb2->getString();
-			graph.addCurve(val_2, 2);
-		}
-		//perhaps this code might work itself or atleast work for the first time, after which this code probably doesn't work.
-		if (btn2_click_count > 1 && val_2 != tb2->getString())
-		{
-			val_2 = tb2->getString();
-			graph.addCurve(val_2, 2);
-		}
-		
-		
-	}
-
-	if (btn3_clicked == true)
-	{
-		//we can check for new updates in the code.
-		//check if the click count is more than one
-		//if so check if the old string and new string are different then delete the old string and use the new one.
-		if (btn3_click_count == 1)
-		{
-			val_3 = tb3->getString();
-			graph.addCurve(val_3, 3);
-		}
-		//perhaps this code might work itself or atleast work for the first time, after which this code probably doesn't work.
-		if (btn3_click_count > 1 && val_3 != tb3->getString())
-		{
-			val_3 = tb3->getString();
-			graph.addCurve(val_3, 3);
-		}
-		
-		
-	}
-
-	if (btn4_clicked == true)
-	{
-		//we can check for new updates in the code.
-		//check if the click count is more than one
-		//if so check if the old string and new string are different then delete the old string and use the new one.
-		if (btn4_click_count == 1)
-		{
-			val_4 = tb4->getString();
-			graph.addCurve(val_4, 1);
-		}
-		//perhaps this code might work itself or atleast work for the first time, after which this code probably doesn't work.
-		if (btn4_click_count > 1 && val_4 != tb4->getString())
-		{
-			val_4 = tb4->getString();
-			graph.addCurve(val_4, 1);
-		}
-		
-		
-	}
-
-	
 	if (add_clicked == true)
 	{
 
@@ -399,6 +363,8 @@ void Gui::draw_points()
 	point_plot_3.listen(window);
 	point_plot_4.listen(window);
 
+	degree->listenForClick(window);
+
 	//this adds new columns
 	if (add_col_1.clicked == true)
 	{
@@ -425,10 +391,11 @@ void Gui::draw_points()
 	{
 		pointbox_count++;
 		pointbox_added = true;
+		
 	}
 
-	pointbox0->draw(window);
-	pointbox0->listenforClick(window);
+	pointbox[0]->draw(window);
+	pointbox[0]->listenforClick(window);
 
 	if (pointbox_added == true)
 	{
@@ -439,8 +406,8 @@ void Gui::draw_points()
 			window.draw(add_col_2.Label);
 			window.draw(point_plot_2.Sprite);
 			window.draw(point_plot_2.Label);
-			pointbox5->draw(window);
-			pointbox5->listenforClick(window);
+			pointbox[5]->draw(window);
+			pointbox[5]->listenforClick(window);
 		}
 
 		if (pointbox_count == 2)
@@ -453,10 +420,10 @@ void Gui::draw_points()
 			window.draw(add_col_3.Label);
 			window.draw(point_plot_3.Sprite);
 			window.draw(point_plot_3.Label);
-			pointbox5->draw(window);
-			pointbox5->listenforClick(window);
-			pointbox10->draw(window);
-			pointbox10->listenforClick(window);
+			pointbox[5]->draw(window);
+			pointbox[5]->listenforClick(window);
+			pointbox[10]->draw(window);
+			pointbox[10]->listenforClick(window);
 		}
 
 		if (pointbox_count == 3 || pointbox_count > 3)
@@ -474,181 +441,158 @@ void Gui::draw_points()
 			window.draw(point_plot_4.Sprite);
 			window.draw(point_plot_4.Label);
 
-			pointbox5->draw(window);
-			pointbox5->listenforClick(window);
-			pointbox10->draw(window);
-			pointbox10->listenforClick(window);
-			pointbox15->draw(window);
-			pointbox15->listenforClick(window);
+			pointbox[5]->draw(window);
+			pointbox[5]->listenforClick(window);
+			pointbox[10]->draw(window);
+			pointbox[10]->listenforClick(window);
+			pointbox[15]->draw(window);
+			pointbox[15]->listenforClick(window);
 		}
 		else
 		{
 			//draw nothing
 		}
 	}
+
 	if (col_1_added == true)
 	{
-		if (col_1_count == 1)
+
+		if (col_1_count > 4)
+			col_1_count = 4;
+		for (unsigned i = 1; i < 1 + col_1_count; i++)
 		{
-			//second column of first pointbox;
-			pointbox1->draw(window);
-			pointbox1->listenforClick(window);
-		}
-		if (col_1_count == 2)
-		{
-			pointbox1->draw(window);
-			pointbox1->listenforClick(window);
-			pointbox2->draw(window);
-			pointbox2->listenforClick(window);
-		}
-		if (col_1_count == 3)
-		{
-			pointbox1->draw(window);
-			pointbox1->listenforClick(window);
-			pointbox2->draw(window);
-			pointbox2->listenforClick(window);
-			pointbox3->draw(window);
-			pointbox3->listenforClick(window);
-		}
-		if (col_1_count == 4 || col_1_count > 4)
-		{
-			pointbox1->draw(window);
-			pointbox1->listenforClick(window);
-			pointbox2->draw(window);
-			pointbox2->listenforClick(window);
-			pointbox3->draw(window);
-			pointbox3->listenforClick(window);
-			pointbox4->draw(window);
-			pointbox4->listenforClick(window);
-		}
-		else
-		{
-			//draw nothing
+			pointbox[i]->draw(window);
+			pointbox[i]->listenforClick(window);
 		}
 	}
 
 	if (col_2_added == true)
 	{
-		if (col_2_count == 1)
+
+		if (col_2_count > 4)
+			col_2_count = 4;
+		for (unsigned i = 6; i < 6 + col_2_count; i++)
 		{
-			//second column of first pointbox;
-			pointbox6->draw(window);
-			pointbox6->listenforClick(window);
-		}
-		if (col_2_count == 2)
-		{
-			pointbox6->draw(window);
-			pointbox6->listenforClick(window);
-			pointbox7->draw(window);
-			pointbox7->listenforClick(window);
-		}
-		if (col_2_count == 3)
-		{
-			pointbox6->draw(window);
-			pointbox6->listenforClick(window);
-			pointbox7->draw(window);
-			pointbox7->listenforClick(window);
-			pointbox8->draw(window);
-			pointbox8->listenforClick(window);
-		}
-		if (col_2_count == 4 || col_2_count > 4)
-		{
-			pointbox6->draw(window);
-			pointbox6->listenforClick(window);
-			pointbox7->draw(window);
-			pointbox7->listenforClick(window);
-			pointbox8->draw(window);
-			pointbox8->listenforClick(window);
-			pointbox9->draw(window);
-			pointbox9->listenforClick(window);
-		}
-		else
-		{
-			//draw nothing
+			pointbox[i]->draw(window);
+			pointbox[i]->listenforClick(window);
 		}
 	}
 
 	if (col_3_added == true)
 	{
-		if (col_3_count == 1)
+		if (col_3_count > 4)
+			col_3_count = 4;
+		for (unsigned i = 11; i < 11 + col_3_count; i++)
 		{
-			//second column of first pointbox;
-
-			pointbox11->draw(window);
-			pointbox11->listenforClick(window);
-		}
-		if (col_3_count == 2)
-		{
-			pointbox11->draw(window);
-			pointbox11->listenforClick(window);
-			pointbox12->draw(window);
-			pointbox12->listenforClick(window);
-		}
-		if (col_3_count == 3)
-		{
-			pointbox11->draw(window);
-			pointbox11->listenforClick(window);
-			pointbox12->draw(window);
-			pointbox12->listenforClick(window);
-			pointbox13->draw(window);
-			pointbox13->listenforClick(window);
-		}
-		if (col_3_count == 4 || col_3_count > 4)
-		{
-			pointbox11->draw(window);
-			pointbox11->listenforClick(window);
-			pointbox12->draw(window);
-			pointbox12->listenforClick(window);
-			pointbox13->draw(window);
-			pointbox13->listenforClick(window);
-			pointbox14->draw(window);
-			pointbox14->listenforClick(window);
-		}
-		else
-		{
-			//draw nothing
+			pointbox[i]->draw(window);
+			pointbox[i]->listenforClick(window);
 		}
 	}
 
 	if (col_4_added == true)
 	{
-		if (col_4_count == 1)
+		if (col_4_count > 4)
+			col_4_count = 4;
+		for (unsigned i = 16; i < 16 + col_4_count; i++)
 		{
-			//second column of first pointbox;
-			pointbox16->draw(window);
-			pointbox16->listenforClick(window);
+			pointbox[i]->draw(window);
+			pointbox[i]->listenforClick(window);
 		}
-		if (col_4_count == 2)
-		{
+	}
 
-			pointbox16->draw(window);
-			pointbox16->listenforClick(window);
-			pointbox17->draw(window);
-			pointbox17->listenforClick(window);
-		}
-		if (col_4_count == 3)
+	//Point is sent to the grapher to ger marked in the graph and the points to be fitted.
+	if (point_plot_1.clicked == true)
+	{
+		if (col_1_added == true)
 		{
-			pointbox16->draw(window);
-			pointbox16->listenforClick(window);
-			pointbox17->draw(window);
-			pointbox17->listenforClick(window);
-			pointbox18->draw(window);
-			pointbox18->listenforClick(window);
+			if (col_1_count > 4)
+				col_1_count = 4;
+			for (unsigned i = 0; i <= col_1_count; i++)
+			{
+				pointbox[i]->getPoint();
+				if (pointbox[i]->isInvalid() == true)
+				{
+					//handle the error of invalid
+				}
+				if (!pointbox[i]->isEmpty() && !pointbox[i]->isInvalid())
+				{
+					graph.takePoint(pointbox[i]->getX(), pointbox[i]->getY());
+				}
+			}
+			//the degree from the degree field has to be sent as an argument:
+			// graph.fitPoints(degree);
+			degree_val = stod(degree->getString());
+			
+			graph.fitPoints(degree_val);
 		}
-		if (col_4_count == 4 || col_4_count > 4)
+	}
+	if (point_plot_2.clicked == true)
+	{
+		if (col_2_added == true)
 		{
-			pointbox16->draw(window);
-			pointbox16->listenforClick(window);
-			pointbox17->draw(window);
-			pointbox17->listenforClick(window);
-			pointbox18->draw(window);
-			pointbox18->listenforClick(window);
-			pointbox19->draw(window);
-			pointbox19->listenforClick(window);
+			if (col_2_count > 4)
+				col_2_count = 4;
+			for (unsigned i = 0; i <= 5 * 1 + col_2_count; i++)
+			{
+				pointbox[i]->getPoint();
+				if (pointbox[i]->isInvalid() == true)
+				{
+					//handle the error of invalid
+				}
+				if (!pointbox[i]->isEmpty() && !pointbox[i]->isInvalid())
+				{
+					graph.takePoint(pointbox[i]->getX(), pointbox[i]->getY());
+				}
+			}
+			degree_val = stod(degree->getString());
+			
+			graph.fitPoints(degree_val);
 		}
-		else
+	}
+	if (point_plot_3.clicked == true)
+	{
+		if (col_3_added == true)
 		{
-			//draw nothing
+			if (col_3_count > 4)
+				col_3_count = 4;
+			for (unsigned i = 0; i <= 5 * 2 + col_3_count; i++)
+			{
+				pointbox[i]->getPoint();
+				if (pointbox[i]->isInvalid() == true)
+				{
+					//handle the error of invalid
+				}
+				if (!pointbox[i]->isEmpty() && !pointbox[i]->isInvalid())
+				{
+					graph.takePoint(pointbox[i]->getX(), pointbox[i]->getY());
+				}
+			}
+			degree_val = stod(degree->getString());
+			
+			graph.fitPoints(degree_val);
+		}
+	}
+	if (point_plot_4.clicked == true)
+	{
+		if (col_4_added == true)
+		{
+			if (col_4_count > 4)
+				col_4_count = 4;
+			for (unsigned i = 0; i <= 5 * 3 + col_4_count; i++)
+			{
+				pointbox[i]->getPoint();
+				if (pointbox[i]->isInvalid() == true)
+				{
+					//handle the error of invalid
+				}
+				if (!pointbox[i]->isEmpty() && !pointbox[i]->isInvalid())
+				{
+					graph.takePoint(pointbox[i]->getX(), pointbox[i]->getY());
+				}
+			}
+			degree_val = stod(degree->getString());
+			
+			graph.fitPoints(degree_val);
 		}
 	}
 
@@ -658,9 +602,8 @@ void Gui::draw_points()
 	window.draw(add_col_1.Label);
 	window.draw(point_plot_1.Sprite);
 	window.draw(point_plot_1.Label);
-
-	window.draw(*degree_entry);
-	
+	window.draw(*degree);
+	window.draw(deg);
 }
 
 Gui::~Gui()
@@ -672,27 +615,8 @@ Gui::~Gui()
 	delete tb4;
 
 	//perhaps we should make a vector of this
-	delete pointbox0;
-	delete pointbox1;
-	delete pointbox2;
-	delete pointbox3;
-	delete pointbox4;
-	delete pointbox5;
-	delete pointbox6;
-	delete pointbox7;
-	delete pointbox8;
-	delete pointbox9;
-	delete pointbox10;
-	delete pointbox11;
-	delete pointbox12;
-	delete pointbox13;
-	delete pointbox14;
-	delete pointbox15;
-	delete pointbox16;
-	delete pointbox17;
-	delete pointbox18;
-	delete pointbox19;
-
-	delete degree_entry;
-
+	for (int i = 0; i < 20; i++)
+	{
+		delete pointbox[i];
+	}
 }
