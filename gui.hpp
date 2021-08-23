@@ -109,6 +109,10 @@ private:
 
 	sf::Font font;
 
+	//Zooming buttons
+	Button zoomIn;
+	Button zoomOut;
+
 public:
 	Gui();
 	void main();

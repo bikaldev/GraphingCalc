@@ -112,6 +112,16 @@ Gui::Gui()
 	add_button.Create();
 	add_button.setPosition(50.f, 600.f);
 
+	//zooming button initialization
+	zoomIn.setLabel("+");
+	zoomOut.setLabel("-");
+
+	zoomIn.Create();
+	zoomOut.Create();
+
+	zoomIn.setPosition(0.95 * VIEW_WIDTH, 0.05 * VIEW_HEIGHT);
+	zoomOut.setPosition(0.95 * VIEW_WIDTH, 0.15 * VIEW_HEIGHT);
+
 	//Error handling elements initialization
 	error.setFont(font);
 	error_msg = "";
@@ -131,6 +141,8 @@ void Gui::main()
 	{
 
 		window.clear();
+		zoomIn.listen(window);
+		zoomOut.listen(window);
 		graph.drawLayout(window, true);
 		graph.draw(window);
 		graph.listenToStaticEvents(window);
@@ -156,6 +168,15 @@ void Gui::main()
 				default:
 					break;
 			}
+		}
+
+		if (zoomIn.clicked == true)
+		{
+			graph.zoomIn();
+		}
+		if (zoomOut.clicked == true)
+		{
+			graph.zoomOut();
 		}
 
 		eqns.listen(window);
@@ -185,6 +206,12 @@ void Gui::main()
 				draw_points();
 			}
 		}
+
+		//zooming
+		window.draw(zoomIn.Sprite);
+		window.draw(zoomIn.Label);
+		window.draw(zoomOut.Sprite);
+		window.draw(zoomOut.Label);
 
 		window.draw(eqns.Sprite);
 		window.draw(eqns.Label);
