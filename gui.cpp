@@ -1,6 +1,6 @@
 #include "gui.hpp"
 
-void Gui::init()
+Gui::Gui()
 {
 	//these are for buttons
 	tb1 = new Textbox(sf::Vector2f { tb_w, tb_h }, sf::Vector2f { sp_x, sp_y }, "assets/arial.ttf");
@@ -24,7 +24,7 @@ void Gui::init()
 	pointbox13 = new Column(sf::Vector2f { 245.f, 350.f }, "assets/arial.ttf");
 	pointbox14 = new Column(sf::Vector2f { 310.f, 350.f }, "assets/arial.ttf");
 	pointbox15 = new Column(sf::Vector2f { 50.f, 450.f }, "assets/arial.ttf");
-	pointbox16 = new Column(sf::Vector2f { 115.f, 4500.f }, "assets/arial.ttf");
+	pointbox16 = new Column(sf::Vector2f { 115.f, 450.f }, "assets/arial.ttf");
 	pointbox17 = new Column(sf::Vector2f { 180.f, 450.f }, "assets/arial.ttf");
 	pointbox18 = new Column(sf::Vector2f { 245.f, 450.f }, "assets/arial.ttf");
 	pointbox19 = new Column(sf::Vector2f { 310.f, 450.f }, "assets/arial.ttf");
@@ -69,35 +69,35 @@ void Gui::init()
 	//////////////////////////////////////////
 	add_col_1.setLabel("Add Points");
 	add_col_1.Create();
-	add_col_1.setPosition(400.f, 100.f);
+	add_col_1.setPosition(400.f, 140.f);
 
-	point_plot_1.setLabel("Points");
+	point_plot_1.setLabel("Plot");
 	point_plot_1.Create();
-	point_plot_1.setPosition(400.f, 150.f);
+	point_plot_1.setPosition(400.f, 190.f);
 
 	add_col_2.setLabel("Add Points");
 	add_col_2.Create();
-	add_col_2.setPosition(400.f, 200.f);
+	add_col_2.setPosition(400.f, 240.f);
 
-	point_plot_2.setLabel("Points");
+	point_plot_2.setLabel("Plot");
 	point_plot_2.Create();
-	point_plot_2.setPosition(400.f, 250.f);
+	point_plot_2.setPosition(400.f, 290.f);
 
 	add_col_3.setLabel("Add Points");
 	add_col_3.Create();
-	add_col_3.setPosition(400.f, 300.f);
+	add_col_3.setPosition(400.f, 340.f);
 
-	point_plot_3.setLabel("Points");
+	point_plot_3.setLabel("Plot");
 	point_plot_3.Create();
-	point_plot_3.setPosition(400.f, 350.f);
+	point_plot_3.setPosition(400.f, 390.f);
 
 	add_col_4.setLabel("Add Points");
 	add_col_4.Create();
-	add_col_4.setPosition(400.f, 400.f);
+	add_col_4.setPosition(400.f, 440.f);
 
-	point_plot_4.setLabel("Points");
+	point_plot_4.setLabel("Plot");
 	point_plot_4.Create();
-	point_plot_4.setPosition(400.f, 450.f);
+	point_plot_4.setPosition(400.f, 490.f);
 
 	add_button.setLabel("Add");
 	add_button.Create();
@@ -205,21 +205,29 @@ void Gui::draw_equations()
 	if (btn1.clicked == true)
 	{
 		//here if edited the previous plot remains as well this needs to be taken care of
+		btn1_clicked = true;
+		btn1_click_count ++ ;
 		graph.addCurve(tb1->getString(), 1);
 	}
 	if (btn2.clicked == true)
 	{
 		//here if edited the previous plot remains as well this needs to be taken care of
+		btn2_clicked = true;
+		btn2_click_count ++ ;
 		graph.addCurve(tb2->getString(), 2);
 	}
 	if (btn3.clicked == true)
 	{
 		//here if edited the previous plot remains as well this needs to be taken care of
+		btn3_clicked = true;
+		btn3_click_count ++ ;
 		graph.addCurve(tb3->getString(), 3);
 	}
 	if (btn4.clicked == true)
 	{
 		//here if edited the previous plot remains as well this needs to be taken care of
+		btn4_clicked = true;
+		btn4_click_count ++ ;
 		graph.addCurve(tb4->getString(), 4);
 	}
 
@@ -231,6 +239,88 @@ void Gui::draw_equations()
 	//this code just undrawed an already drawn button.
 	//this is the exact code to implement switching.
 	//we might encounter one problem here.
+	// if (btn1_clicked == true)
+	// {
+	// 	//we can check for new updates in the code.
+	// 	//check if the click count is more than one
+	// 	//if so check if the old string and new string are different then delete the old string and use the new one.
+	// 	if (btn1_click_count == 1)
+	// 	{
+	// 		val_1 = tb1->getString();
+	// 		graph.addCurve(val_1, 1);
+	// 	}
+	// 	//perhaps this code might work itself or atleast work for the first time, after which this code probably doesn't work.
+	// 	if (btn1_click_count > 1 && val_1 != tb1->getString())
+	// 	{
+	// 		//write the formula to delete the curve here.
+	// 		val_1 = tb1->getString();
+	// 		graph.addCurve(val_1, 1);
+	// 	}
+		
+		
+	// }
+
+	// if (btn2_clicked == true)
+	// {
+	// 	//we can check for new updates in the code.
+	// 	//check if the click count is more than one
+	// 	//if so check if the old string and new string are different then delete the old string and use the new one.
+	// 	if (btn2_click_count == 1)
+	// 	{
+	// 		val_2 = tb2->getString();
+	// 		graph.addCurve(val_2, 2);
+	// 	}
+	// 	//perhaps this code might work itself or atleast work for the first time, after which this code probably doesn't work.
+	// 	if (btn2_click_count > 1 && val_2 != tb2->getString())
+	// 	{
+	// 		val_2 = tb2->getString();
+	// 		graph.addCurve(val_2, 2);
+	// 	}
+		
+		
+	// }
+
+	// if (btn3_clicked == true)
+	// {
+	// 	//we can check for new updates in the code.
+	// 	//check if the click count is more than one
+	// 	//if so check if the old string and new string are different then delete the old string and use the new one.
+	// 	if (btn3_click_count == 1)
+	// 	{
+	// 		val_3 = tb3->getString();
+	// 		graph.addCurve(val_3, 3);
+	// 	}
+	// 	//perhaps this code might work itself or atleast work for the first time, after which this code probably doesn't work.
+	// 	if (btn3_click_count > 1 && val_3 != tb3->getString())
+	// 	{
+	// 		val_3 = tb3->getString();
+	// 		graph.addCurve(val_3, 3);
+	// 	}
+		
+		
+	// }
+
+	// if (btn4_clicked == true)
+	// {
+	// 	//we can check for new updates in the code.
+	// 	//check if the click count is more than one
+	// 	//if so check if the old string and new string are different then delete the old string and use the new one.
+	// 	if (btn4_click_count == 1)
+	// 	{
+	// 		val_4 = tb4->getString();
+	// 		graph.addCurve(val_4, 1);
+	// 	}
+	// 	//perhaps this code might work itself or atleast work for the first time, after which this code probably doesn't work.
+	// 	if (btn4_click_count > 1 && val_4 != tb4->getString())
+	// 	{
+	// 		val_4 = tb4->getString();
+	// 		graph.addCurve(val_4, 1);
+	// 	}
+		
+		
+	// }
+
+	
 	if (add_clicked == true)
 	{
 
@@ -501,7 +591,7 @@ void Gui::draw_points()
 			pointbox13->draw(window);
 			pointbox13->listenforClick(window);
 		}
-		if (col_3_count == 4)
+		if (col_3_count == 4 || col_3_count > 4)
 		{
 			pointbox11->draw(window);
 			pointbox11->listenforClick(window);
@@ -512,7 +602,7 @@ void Gui::draw_points()
 			pointbox14->draw(window);
 			pointbox14->listenforClick(window);
 		}
-		if (col_3_count > 4)
+		else
 		{
 			//draw nothing
 		}
@@ -562,22 +652,41 @@ void Gui::draw_points()
 
 	window.draw(add_button.Sprite);
 	window.draw(add_button.Label);
-
 	window.draw(add_col_1.Sprite);
 	window.draw(add_col_1.Label);
-	//window.draw(add_col_2.Sprite);
-	//window.draw(add_col_2.Label);
-	//window.draw(add_col_3.Sprite);
-	//window.draw(add_col_3.Label);
-	//window.draw(add_col_4.Sprite);
-	//window.draw(add_col_4.Label);
-
 	window.draw(point_plot_1.Sprite);
 	window.draw(point_plot_1.Label);
-	//window.draw(point_plot_2.Sprite);
-	//window.draw(point_plot_2.Label);
-	//window.draw(point_plot_3.Sprite);
-	//window.draw(point_plot_3.Label);
-	//window.draw(point_plot_4.Sprite);
-	//window.draw(point_plot_4.Label);
+	
+}
+
+Gui::~Gui()
+{
+	//perhaps we should make a vector of this
+	delete tb1;
+	delete tb2;
+	delete tb3;
+	delete tb4;
+
+	//perhaps we should make a vector of this
+	delete pointbox0;
+	delete pointbox1;
+	delete pointbox2;
+	delete pointbox3;
+	delete pointbox4;
+	delete pointbox5;
+	delete pointbox6;
+	delete pointbox7;
+	delete pointbox8;
+	delete pointbox9;
+	delete pointbox10;
+	delete pointbox11;
+	delete pointbox12;
+	delete pointbox13;
+	delete pointbox14;
+	delete pointbox15;
+	delete pointbox16;
+	delete pointbox17;
+	delete pointbox18;
+	delete pointbox19;
+
 }

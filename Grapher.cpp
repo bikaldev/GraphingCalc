@@ -1,19 +1,23 @@
 #include "Grapher.hpp"
 
-Grapher::Grapher(float size, sf::Vector2f init_offset)
+Grapher::Grapher(sf::Vector2f size, sf::Vector2f init_offset)
 {
-	this->size = size;
+	this->size = size.x;
 	this->offset = init_offset;
 	this->amplitude = 19.0f;
+	margin.x = size.x * MARGIN_RATIO_X;
+	margin.y = size.y * MARGIN_RATIO_Y;
 	srand(SEED);
 	setParams();
 }
 
-void Grapher::operator()(float size, sf::Vector2f init_offset)
+void Grapher::operator()(sf::Vector2f size, sf::Vector2f init_offset)
 {
-	this->size = size;
+	this->size = size.x;
 	this->offset = init_offset;
 	this->amplitude = 19.0f;
+	margin.x = size.x * MARGIN_RATIO_X;
+	margin.y = size.y * MARGIN_RATIO_Y;
 	srand(SEED);
 	setParams();
 }
@@ -45,10 +49,8 @@ void Grapher::setPointPlotterParams()
 void Grapher::setParams()
 {
 	this->grid_spacing = GRID_SIZE;
-	margin.x = size * MARGIN_RATIO;
-	margin.y = size * MARGIN_RATIO;
 	origin.x = margin.x;
-	origin.y = size - margin.y;
+	origin.y = margin.y;
 	this->origin += this->offset;
 	setPointPlotterParams();
 }
@@ -61,12 +63,19 @@ void Grapher::addCurve(std::string s, textboxId id)
 	}
 	try
 	{
-		for (auto it = curves.begin(); it != curves.end(); ++it)
-		{
-			if (it->id == id)
-				curves.erase(it);
-		}
 		CurveInfo info = StringEvaluator::evaluate(s);
+		for (int i = 0; i < static_cast<int>(curves.size()); i++)
+		{
+			//a seg fault has occured in this line of code
+			if (curves[i].id == id)
+			{
+				curves[i].equation = info.equation;
+				curves[i].type = info.type;
+				return;
+			}
+
+			//if this is kept it-1 then we get another error so it can't be the answer.
+		}
 		info.id = id;
 		info.color = sf::Color(randomRGB(), randomRGB(), randomRGB());
 		curves.push_back(info);
@@ -146,7 +155,8 @@ void Grapher::drawAxes(sf::RenderWindow& window)
 
 void Grapher::drawGrid(sf::RenderWindow& window)
 {
-	float aspectRatio = static_cast<float>(window.getSize().y) / window.getSize().x;
+	// float aspectRatio = static_cast<float>(window.getSize().y) / window.getSize().x;
+	float aspectRatio = 1;
 	float grid_offset = this->grid_spacing * aspectRatio;
 	while (grid_offset < (size + this->offset.x - origin.x))
 	{

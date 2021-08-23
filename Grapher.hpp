@@ -8,7 +8,8 @@
 #include <algorithm>
 #include <cmath>
 #include <iostream>
-#define MARGIN_RATIO 0.1
+#define MARGIN_RATIO_X 0.7
+#define MARGIN_RATIO_Y 0.5
 #define GRID_SIZE 25
 #define DRAG_SMOOTHNESS 0.03
 #define COLOR_MAX 255
@@ -34,7 +35,7 @@ private:
 
 public:
 	Grapher() = default;
-	Grapher(float size, sf::Vector2f init_offset);
+	Grapher(sf::Vector2f size, sf::Vector2f init_offset);
 	~Grapher() {};
 
 	void drawLayout(sf::RenderWindow& window, bool isGridOn = false);
@@ -42,7 +43,7 @@ public:
 	void listenToStaticEvents(sf::RenderWindow& window);
 	void draw(sf::RenderWindow& window);
 	virtual void addCurve(std::string s, textboxId id);
-	void operator()(float, sf::Vector2f);
+	void operator()(sf::Vector2f, sf::Vector2f);
 
 private:
 	void drawAxes(sf::RenderWindow& window);
