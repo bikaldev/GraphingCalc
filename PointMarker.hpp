@@ -1,4 +1,5 @@
 #pragma once
+#include <SFML/Graphics.hpp>
 #define POINT_RADIUS 4.0f
 #define TAG_HEIGHT 10.0f
 #define TAG_WIDTH 20.0f

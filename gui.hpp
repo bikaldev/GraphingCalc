@@ -48,9 +48,9 @@ private:
 	float point_cell_gap = 15.f;
 	float pointboxes_gap = 50.f;
 
+	//these are for the equation plot
 	Textbox* tb1;
 	Button btn1;
-	//we dont need too different variables the same
 	std::string val_1 = " ";
 
 	Textbox* tb2;
@@ -65,6 +65,11 @@ private:
 	Button btn4;
 	std::string val_4 = " ";
 
+	Textbox* degree;
+	int degree_val = 1;
+
+	sf::Text deg;
+
 	Button add_col_1;
 	Button add_col_2;
 	Button add_col_3;
@@ -78,27 +83,7 @@ private:
 	Button add_button;
 
 	Button fit_button;
-	//this needs to be initialized in the init function.
-	// Column* pointbox0;
-	// Column* pointbox1;
-	// Column* pointbox2;
-	// Column* pointbox3;
-	// Column* pointbox4;
-	// Column* pointbox5;
-	// Column* pointbox6;
-	// Column* pointbox7;
-	// Column* pointbox8;
-	// Column* pointbox9;
-	// Column* pointbox10;
-	// Column* pointbox11;
-	// Column* pointbox12;
-	// Column* pointbox13;
-	// Column* pointbox14;
-	// Column* pointbox15;
-	// Column* pointbox16;
-	// Column* pointbox17;
-	// Column* pointbox18;
-	// Column* pointbox19;
+
 	Column* pointbox[20];
 
 	sf::RenderWindow window;
@@ -122,6 +107,8 @@ private:
 	std::string error_msg;
 	sf::Text error;
 
+	sf::Font font;
+
 public:
 	Gui();
 	void main();
@@ -129,4 +116,8 @@ public:
 	void draw_points();
 	void draw_col();
 	~Gui();
+
+private:
+	void pointEvaluate(Column* pointbox);
+	void degreeEvaluate(std::string inputDeg);
 };

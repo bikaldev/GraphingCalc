@@ -4,13 +4,13 @@
 #include <iostream>
 #include <string>
 
-using namespace std;
+//using namespace std;
 
-class ParsedString
+class Tokenizer
 {
 public:
 	// Constructor
-	ParsedString(string s);
+	Tokenizer(string s);
 
 	// Separate the next token from the string
 	string nextToken();
@@ -51,7 +51,5 @@ private:
 	const string operators = "*+-/^";
 	const string left = "(";
 	const string right = ")";
-	const string space = " ";
-	const string comma = ",";
 	const string letters = "abcdefghijklmnopqrstuvwxyz";
 };

@@ -309,6 +309,11 @@ void Grapher::fitPoints(int deg)
 	this->pointPlotter.fitCurve();
 }
 
+void Grapher::clearPoints()
+{
+	this->pointPlotter.clear();
+}
+
 void Grapher::listenToStaticEvents(sf::RenderWindow& window)
 {
 	// Curve Drawing logic

@@ -9,6 +9,7 @@ using namespace std;
 
 namespace ftype
 {
+//perhaps we dont need different types of functions and only deal with the same kind ie one argument.
 enum FunctionType
 {
 	ONE_ARGUMENT,

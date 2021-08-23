@@ -4,6 +4,5 @@
 
 int main() {
     Gui g;
-    g.init();
     g.main();
 }

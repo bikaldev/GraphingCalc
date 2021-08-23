@@ -33,10 +33,10 @@ Textbox::Textbox(sf::Vector2f size, sf::Vector2f position, std::string path,
 	t_size(size),
 	t_text_color(sf::Color::Black),
 	t_background_color(sf::Color::White),
-	t_character_size(30),
+	t_character_size(25),
 	t_has_focus(false),
 	t_type(type),
-	t_border_width(0),
+	t_border_width(1),
 	t_limit(20)
 {
 	t_string = "";

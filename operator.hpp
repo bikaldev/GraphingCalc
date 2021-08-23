@@ -1,5 +1,5 @@
 #pragma once
-
+#include "ParserException.hpp"
 #include "token.hpp"
 #include <cmath>
 

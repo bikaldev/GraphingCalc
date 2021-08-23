@@ -23,9 +23,11 @@ private:
 	double h;
 	double dx;
 	double dy;
+	//perhaps we can add stuff here.
+	//we need to add a string here.
 
 	double map(double value, double istart, double istop, double ostart, double ostop);
-	double f(double x, double y, std::queue<Token*>);									 // Function whose contour is to be plotted
+	//double f(double x, double y, std::queue<Token*>);									 // Function whose contour is to be plotted
 	int cell(double a, double b, double c, double d);									 // Helper ftn to determine cell type from f corner values
 	void lines(int, int, int, double, double, double, double, sf::RenderWindow& window); // Helper ftn to draw correct line in a cell
 	void sendData(std::vector<std::vector<double>>, sf::RenderWindow& window);
@@ -35,5 +37,6 @@ private:
 public:
 	ImplicitPlotter() = default;
 	ImplicitPlotter(WindowSize w, sf::Vector2f org, sf::Color col = sf::Color::Red);
+	//the string has been taken here.
 	void display(std::string s, sf::RenderWindow& window);
 };

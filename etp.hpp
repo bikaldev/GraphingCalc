@@ -3,7 +3,7 @@
 #include "shuntingyard.hpp"
 #include "windowsize.hpp"
 #include <SFML/Graphics.hpp>
-
+//we might need to change it to be a class
 namespace convertor
 {
 //if y is dependend var

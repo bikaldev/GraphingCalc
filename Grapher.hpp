@@ -47,6 +47,7 @@ public:
 	void operator()(sf::Vector2f, sf::Vector2f);
 	void takePoint(double, double);
 	void fitPoints(int deg = 1);
+	void clearPoints();
 
 private:
 	void drawAxes(sf::RenderWindow& window);

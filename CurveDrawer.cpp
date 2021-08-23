@@ -1,5 +1,5 @@
 #include "CurveDrawer.hpp"
-
+//for y=f(x) form
 void CurveDrawer::drawYDep(std::string s, sf::RenderWindow& window)
 {
 	std::vector<Points> c;
@@ -10,19 +10,46 @@ void CurveDrawer::drawYDep(std::string s, sf::RenderWindow& window)
 	DefaultWindow.plane.height = X_range;
 	DefaultWindow.plane.top = origin.y;
 	DefaultWindow.plane.left = origin.x;
-
-	c = convertor::Plotytox(s, DefaultWindow);
+	//this might be a better place to keep the exception
+	//this works properly
+	try
+	{
+		c = convertor::Plotytox(s, DefaultWindow);
+	}
+	catch(INVALIDFORMAT e)
+	{
+		std::cerr << e.get_message() << '\n';
+		return;
+	}
+	
+	
 	sf::Vector2f p1, p2;
-
+	//perhaps we need to change the code here to make sure that the tangent lines work
 	for (size_t i = 0; i < c.size() - 1; i++)
 	{
+		//an exception occurs here is y=((x we should be completely omitting this part of the code;
 		p1.x = c[i]._x;
 		p1.y = c[i]._y;
 
 		p2.x = c[i + 1]._x;
 		p2.y = c[i + 1]._y;
-		sfLine line(p1, p2, 3.f, color);
-		window.draw(line);
+		//we need to reduce this exact condition
+		if ((p2.y>p1.y && p2.y-p1.y>500.f) || (p2.y<p1.y && p1.y-p2.y>500.f))
+		{
+		
+			//dont draw in this condition
+			//std::cout<<"this condition is stisfied"<<std::endl;
+
+		}
+		else
+		{
+			sfLine line(p1, p2, 3.f, color);
+			window.draw(line);
+		}
+		
+		///sfLine line(p1, p2, 3.f, color);
+		//window.draw(line);
+		
 	}
 }
 
@@ -37,7 +64,15 @@ void CurveDrawer::drawXDep(std::string s, sf::RenderWindow& window)
 	DefaultWindow.plane.top = origin.y;
 	DefaultWindow.plane.left = origin.x;
 
-	c = convertor::Plotxtoy(s, DefaultWindow);
+	try
+	{
+		c = convertor::Plotxtoy(s, DefaultWindow);
+	}
+	catch(INVALIDFORMAT e)
+	{
+		std::cerr << e.get_message() << '\n';
+		return;
+	}
 	sf::Vector2f p1, p2;
 
 	for (size_t i = 0; i < c.size() - 1; i++)
@@ -47,8 +82,19 @@ void CurveDrawer::drawXDep(std::string s, sf::RenderWindow& window)
 
 		p2.x = c[i + 1]._x;
 		p2.y = c[i + 1]._y;
-		sfLine line(p1, p2, 3.f, color);
-		window.draw(line);
+
+		if ((p2.x>p1.x && p2.x-p1.x>1.f) || (p2.x<p1.x && p1.x-p2.x>1.f))
+		{
+			//std::cout<<"this condition is stisfied"<<std::endl;
+		}
+		else
+		{
+			sfLine line(p1, p2, 3.f, color);
+			window.draw(line);
+		}
+
+		//sfLine line(p1, p2, 3.f, color);
+		//window.draw(line);
 	}
 }
 

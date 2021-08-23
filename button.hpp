@@ -32,13 +32,13 @@ public:
 	std::string clickLabel = label;
 	std::string hoverLabel = label;
 	void Create() {
-		Idle.loadFromFile("assets/btn_idle.png");
-		Hover.loadFromFile("assets/btn_hover.png");
-		Click.loadFromFile("assets/btn_click.png");
+		Idle.loadFromFile("assets/idle.png");
+		Hover.loadFromFile("assets/hover.png");
+		Click.loadFromFile("assets/click.png");
 		Font.loadFromFile("assets/arial.ttf");
 		Label.setFont(Font);
-		Label.setCharacterSize(24);
-		Label.setFillColor(sf::Color::Red);
+		Label.setCharacterSize(20);
+		Label.setFillColor(sf::Color::White);
 		setLabel(label);
 		Sprite.setTexture(Idle);
 		//i belive this is for alignment

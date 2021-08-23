@@ -1,7 +1,8 @@
 #include "parsedstring.hpp"
+#include "ParserException.hpp"
 
 // Constructor
-ParsedString::ParsedString(string s)
+Tokenizer::Tokenizer(string s)
 {
 	_type = token::OTHER;
 	_s = s;
@@ -10,7 +11,7 @@ ParsedString::ParsedString(string s)
 }
 
 // Separate the next token from the string and increment _pos depending on the length of each token
-string ParsedString::nextToken()
+string Tokenizer::nextToken()
 {
 	string s;
 	token::TokenType currentType = stringType();
@@ -43,12 +44,7 @@ string ParsedString::nextToken()
 			_pos++;
 			break;
 		}
-			// For space, as it only has one character, so parse only one character out of the next string
-		case token::SPACE: {
-			s.assign(" ");
-			_pos++;
-			break;
-		}
+		
 			// For string that contains letters, it can be a function or a variable. We parse the substring
 		case token::LETTER: {
 			// j is the last position in the substring that is not a letter
@@ -61,12 +57,7 @@ string ParsedString::nextToken()
 			_pos += j - _pos;
 			break;
 		}
-			// For comma, as it only has one character, so parse only one character out of the next string
-		case token::COMMA: {
-			s.assign(",");
-			_pos++;
-			break;
-		}
+		
 		case token::OTHER:
 			break;
 		default:
@@ -76,42 +67,47 @@ string ParsedString::nextToken()
 }
 
 // Convert a string to a number
-void ParsedString::convertToNumber(string s)
+void Tokenizer::convertToNumber(string s)
 {
 	_d = stod(s);
 }
 
 // Convert letter type string to appropriate token types
-token::TokenType ParsedString::convertToOtherTypes(string s)
+token::TokenType Tokenizer::convertToOtherTypes(string s)
 {
 	if (s == "x" || s == "y")
 		_type = token::VARIABLE;
 	else if (s == "sin" || s == "cos" || s == "tan" || s == "cot" || s == "sec" || s == "csc" || s == "ln" || s == "exp" || s == "min" || s == "max")
 		_type = token::FUNCTION;
+	else
+	{
+		throw INVALIDFORMAT("Invalid funtion or variable name.");
+	}
+	
 
 	return _type;
 }
 // Get number from the conversion from a double type
-double ParsedString::getNumber()
+double Tokenizer::getNumber()
 {
 	return _d;
 }
 
 // Get the type of the current parsed string
-token::TokenType ParsedString::getType()
+token::TokenType Tokenizer::getType()
 {
 	return _type;
 }
 
 // Categorize the type of string being parsed currently, by checking if character at a given position fits the characters in the private constant strings
-token::TokenType ParsedString::stringType()
+token::TokenType Tokenizer::stringType()
 {
 	int operand_pos = operands.find(_s[_pos]);
 	int operator_pos = operators.find(_s[_pos]);
 	int left_pos = left.find(_s[_pos]);
 	int right_pos = right.find(_s[_pos]);
-	int space_pos = space.find(_s[_pos]);
-	int comma_pos = comma.find(_s[_pos]);
+	//int space_pos = space.find(_s[_pos]);
+	//int comma_pos = comma.find(_s[_pos]);
 	int letter_pos = letters.find(_s[_pos]);
 
 	if (operand_pos != -1)
@@ -126,12 +122,6 @@ token::TokenType ParsedString::stringType()
 	else if (right_pos != -1)
 		_type = token::RIGHTBRACKET;
 
-	else if (space_pos != -1)
-		_type = token::SPACE;
-
-	else if (comma_pos != -1)
-		_type = token::COMMA;
-
 	else if (letter_pos != -1)
 		_type = token::LETTER;
 
@@ -139,7 +129,7 @@ token::TokenType ParsedString::stringType()
 }
 
 // Check if there is any string to parse
-bool ParsedString::isEmpty()
+bool Tokenizer::isEmpty()
 {
 	if (static_cast<int>(_pos) < 0)
 	{
