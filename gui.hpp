@@ -6,6 +6,8 @@
 #include <SFML/Graphics.hpp>
 #include <cmath>
 #include <iostream>
+#define VIEW_HEIGHT 720.0f
+#define VIEW_WIDTH 1280.0f
 
 class Gui
 {
@@ -16,6 +18,16 @@ private:
 		Equations_plot
 	};
 	InputType choice;
+
+	bool btn1_clicked;
+	bool btn2_clicked;
+	bool btn3_clicked;
+	bool btn4_clicked;
+	unsigned int btn1_click_count = 0;
+	unsigned int btn2_click_count = 0;
+	unsigned int btn3_click_count = 0;
+	unsigned int btn4_click_count = 0;
+
 	bool add_clicked;
 	bool ptn_clicked;
 	bool eqn_clicked;
@@ -38,15 +50,20 @@ private:
 
 	Textbox* tb1;
 	Button btn1;
+	//we dont need too different variables the same
+	std::string val_1 = " ";
 
 	Textbox* tb2;
 	Button btn2;
+	std::string val_2 = " ";
 
 	Textbox* tb3;
 	Button btn3;
+	std::string val_3 = " ";
 
 	Textbox* tb4;
 	Button btn4;
+	std::string val_4 = " ";
 
 	Button add_col_1;
 	Button add_col_2;
@@ -59,27 +76,30 @@ private:
 	Button point_plot_4;
 
 	Button add_button;
+
+	Button fit_button;
 	//this needs to be initialized in the init function.
-	Column* pointbox0;
-	Column* pointbox1;
-	Column* pointbox2;
-	Column* pointbox3;
-	Column* pointbox4;
-	Column* pointbox5;
-	Column* pointbox6;
-	Column* pointbox7;
-	Column* pointbox8;
-	Column* pointbox9;
-	Column* pointbox10;
-	Column* pointbox11;
-	Column* pointbox12;
-	Column* pointbox13;
-	Column* pointbox14;
-	Column* pointbox15;
-	Column* pointbox16;
-	Column* pointbox17;
-	Column* pointbox18;
-	Column* pointbox19;
+	// Column* pointbox0;
+	// Column* pointbox1;
+	// Column* pointbox2;
+	// Column* pointbox3;
+	// Column* pointbox4;
+	// Column* pointbox5;
+	// Column* pointbox6;
+	// Column* pointbox7;
+	// Column* pointbox8;
+	// Column* pointbox9;
+	// Column* pointbox10;
+	// Column* pointbox11;
+	// Column* pointbox12;
+	// Column* pointbox13;
+	// Column* pointbox14;
+	// Column* pointbox15;
+	// Column* pointbox16;
+	// Column* pointbox17;
+	// Column* pointbox18;
+	// Column* pointbox19;
+	Column* pointbox[20];
 
 	sf::RenderWindow window;
 	Grapher graph;
@@ -98,10 +118,15 @@ private:
 	unsigned int col_count;
 	//unsigned int pointbox_count;
 
+	//error handling elements:
+	std::string error_msg;
+	sf::Text error;
+
 public:
-	void init();
+	Gui();
 	void main();
 	void draw_equations();
 	void draw_points();
 	void draw_col();
+	~Gui();
 };

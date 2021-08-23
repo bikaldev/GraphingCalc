@@ -42,8 +42,11 @@ public:
 	void listenToLazyEvent(sf::Event& evnt, sf::RenderWindow& window);
 	void listenToStaticEvents(sf::RenderWindow& window);
 	void draw(sf::RenderWindow& window);
-	virtual void addCurve(std::string s, textboxId id);
+	void addCurve(std::string s, textboxId id);
+	void deleteCurve(textboxId id);
 	void operator()(sf::Vector2f, sf::Vector2f);
+	void takePoint(double, double);
+	void fitPoints(int deg = 1);
 
 private:
 	void drawAxes(sf::RenderWindow& window);

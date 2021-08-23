@@ -87,6 +87,22 @@ void Grapher::addCurve(std::string s, textboxId id)
 	}
 }
 
+void Grapher::deleteCurve(textboxId id)
+{
+	for (int i = 0; i < static_cast<int>(curves.size()); i++)
+	{
+		//a seg fault has occured in this line of code
+		if (curves[i].id == id)
+		{
+			curves[i].equation = "";
+			curves[i].type = None;
+			return;
+		}
+
+		//if this is kept it-1 then we get another error so it can't be the answer.
+	}
+}
+
 void Grapher::draw(sf::RenderWindow& window)
 {
 	CurveInfo info;
@@ -287,6 +303,12 @@ void Grapher::markPoints(sf::RenderWindow& window)
 	this->pointPlotter.markPoints(window);
 }
 
+void Grapher::fitPoints(int deg)
+{
+	this->pointPlotter.setDegree(deg);
+	this->pointPlotter.fitCurve();
+}
+
 void Grapher::listenToStaticEvents(sf::RenderWindow& window)
 {
 	// Curve Drawing logic
@@ -294,4 +316,9 @@ void Grapher::listenToStaticEvents(sf::RenderWindow& window)
 	//Point plotting logic
 	markPoints(window);
 	this->pointPlotter.listenToStaticEvent(window);
+}
+
+void Grapher::takePoint(double x, double y)
+{
+	this->pointPlotter.takePoint(x, y);
 }
