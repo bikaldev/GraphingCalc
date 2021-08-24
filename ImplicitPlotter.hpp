@@ -1,6 +1,6 @@
 
-#define N_X 100
-#define N_Y 100
+#define N_X 200
+#define N_Y 200
 #define OX (-20 + i * dx)
 //#define OX(-z + i * dx) this is the code when range is provided by the user
 //#define OY(z - j * dy) this is the code when range is provided by the user

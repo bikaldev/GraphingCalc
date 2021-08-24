@@ -78,6 +78,11 @@ void PointPlot::takePoint(double x, double y)
 
 void PointPlot::fitCurve()
 {
+	if (degree >= static_cast<int>(X.size()))
+	{
+		throw INSUFFICIENTSAMPLE("Not enough points for the specified degree. Needed one more point than the no. of degree specified");
+	}
+
 	this->isFitOn = true;
 	this->isDrawOn = true;
 }
@@ -147,11 +152,19 @@ void PointPlot::fitPoints()
 	X_mat(this->X);
 	y_mat(this->Y);
 	LinReg L(X_mat, y_mat, origin, offset, size, amplitude);
-	L.TrainModel(degree);
+	try
+	{
+		L.TrainModel(degree);
+	}
+	catch (INSUFFICIENTSAMPLE e)
+	{
+		throw;
+	}
 	this->LinearReg = L;
 }
 
-void PointPlot::clear() {
+void PointPlot::clear()
+{
 	this->X.clear();
 	this->Y.clear();
 }

@@ -155,11 +155,13 @@ void Grapher::zoomInandOut(Zoom z_type, float factor)
 void Grapher::zoomIn()
 {
 	zoomInandOut(Zoom::in);
+	setPointPlotterParams();
 }
 
 void Grapher::zoomOut()
 {
 	zoomInandOut(Zoom::out);
+	setPointPlotterParams();
 }
 
 void Grapher::drawBackground(sf::RenderWindow& window)
@@ -272,12 +274,12 @@ void Grapher::drawXDepCurve(CurveInfo info, sf::RenderWindow& window)
 	}
 	catch (INVALIDOPERAND e)
 	{
-		std::cout << "Error at Grapher/drawXdep: " << e.get_message() << std::endl;
+		// std::cout << "Error at Grapher/drawXdep: " << e.get_message() << std::endl;
 		throw;
 	}
 	catch (INVALIDFORMAT e)
 	{
-		std::cout << "Error at Grapher/drawXDep" << e.get_message() << std::endl;
+		// std::cout << "Error at Grapher/drawXDep" << e.get_message() << std::endl;
 		throw;
 	}
 }
@@ -297,12 +299,12 @@ void Grapher::drawImplicitCurve(CurveInfo info, sf::RenderWindow& window)
 	}
 	catch (INVALIDOPERAND e)
 	{
-		std::cout << "Error at Grapher/drawImplicit: " << e.get_message() << std::endl;
+		// std::cout << "Error at Grapher/drawImplicit: " << e.get_message() << std::endl;
 		throw;
 	}
 	catch (INVALIDFORMAT e)
 	{
-		std::cout << "Error at Grapher/drawImplicit" << e.get_message() << std::endl;
+		// std::cout << "Error at Grapher/drawImplicit" << e.get_message() << std::endl;
 		throw;
 	}
 }
@@ -360,8 +362,15 @@ void Grapher::markPoints(sf::RenderWindow& window)
 
 void Grapher::fitPoints(int deg)
 {
-	this->pointPlotter.setDegree(deg);
-	this->pointPlotter.fitCurve();
+	try
+	{
+		this->pointPlotter.setDegree(deg);
+		this->pointPlotter.fitCurve();
+	}
+	catch (INSUFFICIENTSAMPLE e)
+	{
+		throw;
+	}
 }
 
 void Grapher::clearPoints()

@@ -126,7 +126,7 @@ Gui::Gui()
 	error.setFont(font);
 	error_msg = "";
 	error.setString(error_msg);
-	error.setPosition(sf::Vector2f(0.2 * VIEW_WIDTH, 0.9 * VIEW_HEIGHT));
+	error.setPosition(sf::Vector2f(0.05 * VIEW_WIDTH, 0.9 * VIEW_HEIGHT));
 	error.setFillColor(sf::Color::Red);
 	error.setCharacterSize(25);
 
@@ -147,7 +147,6 @@ void Gui::main()
 		try
 		{
 			graph.draw(window);
-			error_msg = "";
 		}
 		catch (INVALIDOPERAND e)
 		{
@@ -665,7 +664,7 @@ void Gui::pointEvaluate(Column* pointbox)
 
 void Gui::degreeEvaluate(std::string inputDeg)
 {
-	if ((inputDeg).length() == 0)
+	if ((inputDeg).length() <= 0)
 	{
 		degree_val = 1;
 	}
@@ -681,8 +680,14 @@ void Gui::degreeEvaluate(std::string inputDeg)
 			error_msg = "Invalid arguments in the point field";
 		}
 	}
-
-	graph.fitPoints(degree_val);
+	try
+	{
+		graph.fitPoints(degree_val);
+	}
+	catch (INSUFFICIENTSAMPLE e)
+	{
+		error_msg = e.get_message();
+	}
 }
 
 Gui::~Gui()

@@ -1,5 +1,6 @@
 #pragma once
 #include "CurveDrawer.hpp"
+#include "LinRegException.hpp"
 #include "Matrix.hpp"
 #include <SFML/Graphics.hpp>
 #include <cmath>
