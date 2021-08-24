@@ -3,6 +3,7 @@
 #include "button.hpp"
 #include "column.hpp"
 #include "textbox.hpp"
+#include "smallbutton.hpp"
 #include <SFML/Graphics.hpp>
 #include <cmath>
 #include <iostream>
@@ -51,19 +52,19 @@ private:
 	//these are for the equation plot
 	Textbox* tb1;
 	Button btn1;
-	std::string val_1 = " ";
+	//std::string val_1 = " ";
 
 	Textbox* tb2;
 	Button btn2;
-	std::string val_2 = " ";
+	//std::string val_2 = " ";
 
 	Textbox* tb3;
 	Button btn3;
-	std::string val_3 = " ";
+	//std::string val_3 = " ";
 
 	Textbox* tb4;
 	Button btn4;
-	std::string val_4 = " ";
+	//std::string val_4 = " ";
 
 	Textbox* degree;
 	int degree_val = 1;
@@ -110,8 +111,8 @@ private:
 	sf::Font font;
 
 	//Zooming buttons
-	Button zoomIn;
-	Button zoomOut;
+	smallButton zoomIn;
+	smallButton zoomOut;
 
 public:
 	Gui();

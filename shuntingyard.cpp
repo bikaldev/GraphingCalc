@@ -27,45 +27,54 @@ void Parser::StringToInfix()
 			case token::OPERAND:
 				// Get the number converted from the next string token
 				d = ps.getNumber();
-				infix_expr.push(new Operand(d));
+				infix_exprn.push(new Operand(d));
 				break;
 				// In other cases, convert the parsed string to character
 			case token::OPERATOR:
+				//check if there are multiple datas.
+				if (infix_exprn.back()->TypeOf() == token::OPERATOR)
+				{
+					//we need to solve this again.
+					std::cout<<"multiple division terms used"<<std::endl;
+					throw INVALIDFORMAT("Multiple operators used at once");
+
+				}
+
 				t = temp[0];
-				infix_expr.push(new Operator(t));
+				infix_exprn.push(new Operator(t));
 				break;
 			case token::LEFTBRACKET:
 				t = temp[0];
-				infix_expr.push(new LeftBracket(t));
+				infix_exprn.push(new LeftBracket(t));
 				left_bracket_num++;
 				break;
 			case token::RIGHTBRACKET:
 				t = temp[0];
-				infix_expr.push(new RightBracket(t));
+				infix_exprn.push(new RightBracket(t));
 				right_bracket_num++;
 				break;
-			
+
 			case token::VARIABLE:
 			//we have an exception here dealt using if.
-				if (!infix_expr.empty())
+				if (!infix_exprn.empty())
 				{
-					switch (infix_expr.back()->TypeOf())
+					switch (infix_exprn.back()->TypeOf())
 					{
 						//this case works perfectly fine but there seems to be some problem with the variable case used here.
 						case token::OPERAND:
-							infix_expr.push(new Operator('*'));
+							infix_exprn.push(new Operator('*'));
 							break;
 						default:
 							break;
 					}
 				}
-			
-				
+
+
 				t = temp[0];
-				infix_expr.push(new Variable(t));
+				infix_exprn.push(new Variable(t));
 				break;
 			case token::FUNCTION:
-				infix_expr.push(new Function(temp));
+				infix_exprn.push(new Function(temp));
 				break;
 			default:
 				break;
@@ -75,16 +84,12 @@ void Parser::StringToInfix()
 	{
 		throw INVALIDFORMAT("Right or Left Bracket missing in the expression");
 	}
-	
-	//return output;
+
 }
 
-// Convert an infix queue to a postfix queue
-//lets raise a error here if the code is incorrect ie. displaced operands.
 void Parser::InfixToPostfix()
 {
-	//queue<Token*> postfix;
-	//stack<Token*> s;
+	std::queue<Token*> infix_expr = infix_exprn;
 	Token* p;
 	// While there are still tokens to be read from the input
 	while (!(infix_expr.empty()))
@@ -157,7 +162,8 @@ void Parser::InfixToPostfix()
 double Parser::EvaluatePostfix(double x, double y)
 {
 	std::queue<Token*>postfix = postfix_expr;
-	//stack<Token*> s;
+	//if output stack is not created here we will run into problems regarding the use of unary operators.
+	stack<Token*> output_stack;
 	Token* p;
 	double left = 0, right = 0, output = 0;
 
@@ -170,6 +176,7 @@ double Parser::EvaluatePostfix(double x, double y)
 				// If the type of the node in the Queue is an operand, push it to the Stack
 			case token::OPERAND: {
 				output_stack.push(p);
+				//std::cout<<static_cast<Operand*>(output_stack.top())->GetOperand()<<std::endl;
 				break;
 			}
 			// If the type of the node in the Queue is a variable, push it to the Stack as an Operand
@@ -196,58 +203,66 @@ double Parser::EvaluatePostfix(double x, double y)
 			case token::OTHER:
 				break;
 			// If the type is an operator, get the operator, pop at the Stack, do the operation then push the result to the Stack
-			case token::OPERATOR: {
+			case token::OPERATOR:
+			{
 
-				if (!output_stack.empty())
-				{
-					
-				try
-				{
-					if (output_stack.size() == 1)
+					try
 					{
-						//the problem comes here when we use unary operatos.
-						right = static_cast<Operand*>(output_stack.top())->GetOperand();
-						output_stack.pop();
-						output = static_cast<Operator*>(p)->evaluate(left, right);
+						//is this code going in an endless loop
+						if (output_stack.size() == 1)
+						{
+							//this needs to be used so that we can use the equation y=-6.
+							//std::cout<<"this part of the code is being used"<<std::endl;
+							//for some reason this code not code
+							//std::cout<<static_cast<Operand*>(output_stack.top())->GetOperand()<<std::endl;
+							//here after minus -6 we are getting -12
+							right = static_cast<Operand*>(output_stack.top())->GetOperand();
+							output_stack.pop();
+							output = static_cast<Operator*>(p)->evaluate(left, right);
+							//output_stack.push(new Operand(output));
+							//break;
+						}
+						// For regular operators
+						else
+						{
+							//this is the place where the error occurs if the operand is the first member used.
+							//since there is no term in front of the operand as it is the first term in the solution
+							//std::cout<<"this is the part of the code working and it works well"<<std::endl;
+							//we get an error right here for 0-6
+							right = static_cast<Operand*>(output_stack.top())->GetOperand();
+							output_stack.pop();
+							//there is a error on this part of the code
+							left = static_cast<Operand*>(output_stack.top())->GetOperand();
+							output_stack.pop();
+							output = static_cast<Operator*>(p)->evaluate(left, right);
+							//output_stack.push(new Operand(output));
+							//break;
+						}
+
 					}
-					// For regular operators
-					else
+					catch(INVALIDOPERAND e)
 					{
-						//this is the place where the error occurs if the operand is the first member used.
-						//since there is no term in front of the operand as it is the first term in the solution
-						right = static_cast<Operand*>(output_stack.top())->GetOperand();
-						output_stack.pop();
-						left = static_cast<Operand*>(output_stack.top())->GetOperand();
-						output_stack.pop();
-						output = static_cast<Operator*>(p)->evaluate(left, right);
+						std::cerr << e.get_message() << '\n';
+						throw;
+					}
+					//use this to put x=0
+					catch(IMAGINARY)
+					{
+						//this might be a better option because this ensures that the nothing is drawn. The previous solution only made sure that the terminal point is origin which isn't alwaays true
+						//termination of programs might be a better option here.
+						output = 1000;
+						//output_stack.push(new Operand(output));
+						//break;
+
 					}
 
-				}
-				catch(INVALIDOPERAND e)
-				{
-					std::cerr << e.get_message() << '\n';
-				}
-				//use this to put x=0
-				catch(IMAGINARY)
-				{
-					//this might be a better option because this ensures that the nothing is drawn. The previous solution only made sure that the terminal point is origin which isn't alwaays true
-					//termination of programs might be a better option here.
-					output = 1000;
-				}
-				
-				
-				output_stack.push(new Operand(output));
-				break;
-				}
-				else
-				{
-					//perhaps we can throw something here, or create a new way to handle this.
-					std::cout<<"this has been handled"<<std::endl;
+
+					output_stack.push(new Operand(output));
 					break;
-				}
-				
-				//break;
-				
+
+
+
+
 			}
 			// If the type is a function, pop the operand at the stack and push the result to the Stack
 			case token::FUNCTION: {
@@ -288,11 +303,23 @@ Parser::~Parser()
 {
     while (!postfix_expr.empty())
     {
-            Token* k = postfix_expr.front();
-            delete k;
-            k=NULL;
-            postfix_expr.pop();
-    }
-    //it seems a new operator_stack and new output_stack 
-    
+		Token* k = postfix_expr.front();
+		delete k;
+		k=NULL;
+		postfix_expr.pop();
+	}
+
+	//this might be the reason for the seg fault.
+	//lets not delete the output stack for now
+	/*
+	while (!output_stack.empty())
+	{
+		Token * k = output_stack.top();
+		delete k;
+		k = NULL;
+		output_stack.pop();
+
+	}
+	*/
+
 }

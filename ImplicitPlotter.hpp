@@ -1,3 +1,4 @@
+
 #define N_X 100
 #define N_Y 100
 #define OX (-20 + i * dx)

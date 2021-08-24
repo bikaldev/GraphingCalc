@@ -91,42 +91,52 @@ void Grapher::deleteCurve(textboxId id)
 {
 	for (int i = 0; i < static_cast<int>(curves.size()); i++)
 	{
-		//a seg fault has occured in this line of code
 		if (curves[i].id == id)
 		{
 			curves[i].equation = "";
 			curves[i].type = None;
 			return;
 		}
-
-		//if this is kept it-1 then we get another error so it can't be the answer.
 	}
 }
 
 void Grapher::draw(sf::RenderWindow& window)
 {
-	CurveInfo info;
-	for (int i = 0; i < static_cast<int>(curves.size()); i++)
+	try
 	{
-
-		info = curves[i];
-		switch (info.type)
+		CurveInfo info;
+		for (int i = 0; i < static_cast<int>(curves.size()); i++)
 		{
-			case X_dep:
-				drawXDepCurve(info, window);
-				break;
-			case Y_dep:
-				drawYDepCurve(info, window);
-				break;
-			case Implicit:
-				drawImplicitCurve(info, window);
-				break;
-			case None:
-				//throw error
-				break;
-			default:
-				break;
+
+			info = curves[i];
+			switch (info.type)
+			{
+				case X_dep:
+					drawXDepCurve(info, window);
+					break;
+				case Y_dep:
+					drawYDepCurve(info, window);
+					break;
+				case Implicit:
+					drawImplicitCurve(info, window);
+					break;
+				case None:
+					//throw error
+					break;
+				default:
+					break;
+			}
 		}
+	}
+	catch (INVALIDOPERAND e)
+	{
+		std::cout << "Error at Grapher/draw: " << e.get_message() << std::endl;
+		throw;
+	}
+	catch (INVALIDFORMAT e)
+	{
+		std::cout << "Error at Grapher/draw" << e.get_message() << std::endl;
+		throw;
 	}
 }
 
@@ -238,12 +248,38 @@ void Grapher::drawLayout(sf::RenderWindow& window, bool isGridOn)
 
 void Grapher::drawYDepCurve(CurveInfo info, sf::RenderWindow& window)
 {
-	CurveDrawer(this->origin, this->offset, size, this->amplitude, info.color).drawYDep(info.equation, window);
+	try
+	{
+		CurveDrawer(this->origin, this->offset, size, this->amplitude, info.color).drawYDep(info.equation, window);
+	}
+	catch (INVALIDOPERAND e)
+	{
+		std::cout << "Error at Grapher/drawYdep: " << e.get_message() << std::endl;
+		throw;
+	}
+	catch (INVALIDFORMAT e)
+	{
+		std::cout << "Error at Grapher/drawYdep" << e.get_message() << std::endl;
+		throw;
+	}
 }
 
 void Grapher::drawXDepCurve(CurveInfo info, sf::RenderWindow& window)
 {
-	CurveDrawer(this->origin, this->offset, size, this->amplitude, info.color).drawXDep(info.equation, window);
+	try
+	{
+		CurveDrawer(this->origin, this->offset, size, this->amplitude, info.color).drawXDep(info.equation, window);
+	}
+	catch (INVALIDOPERAND e)
+	{
+		std::cout << "Error at Grapher/drawXdep: " << e.get_message() << std::endl;
+		throw;
+	}
+	catch (INVALIDFORMAT e)
+	{
+		std::cout << "Error at Grapher/drawXDep" << e.get_message() << std::endl;
+		throw;
+	}
 }
 
 void Grapher::drawImplicitCurve(CurveInfo info, sf::RenderWindow& window)
@@ -255,7 +291,20 @@ void Grapher::drawImplicitCurve(CurveInfo info, sf::RenderWindow& window)
 	DefaultWindow.plane.height = size;
 	DefaultWindow.plane.top = origin.y;
 	DefaultWindow.plane.left = origin.x;
-	ImplicitPlotter(DefaultWindow, origin, info.color).display(info.equation, window);
+	try
+	{
+		ImplicitPlotter(DefaultWindow, origin, info.color).display(info.equation, window);
+	}
+	catch (INVALIDOPERAND e)
+	{
+		std::cout << "Error at Grapher/drawImplicit: " << e.get_message() << std::endl;
+		throw;
+	}
+	catch (INVALIDFORMAT e)
+	{
+		std::cout << "Error at Grapher/drawImplicit" << e.get_message() << std::endl;
+		throw;
+	}
 }
 
 void Grapher::listenToLazyEvent(sf::Event& evnt, sf::RenderWindow& window)

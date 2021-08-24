@@ -144,7 +144,18 @@ void Gui::main()
 		zoomIn.listen(window);
 		zoomOut.listen(window);
 		graph.drawLayout(window, true);
-		graph.draw(window);
+		try
+		{
+			graph.draw(window);
+		}
+		catch (INVALIDOPERAND e)
+		{
+			error_msg = e.get_message();
+		}
+		catch (INVALIDFORMAT e)
+		{
+			error_msg = e.get_message();
+		}
 		graph.listenToStaticEvents(window);
 		sf::Event evnt;
 		while (window.pollEvent(evnt))
@@ -247,14 +258,6 @@ void Gui::draw_equations()
 		{
 			error_msg = e.message();
 		}
-		catch (INVALIDOPERAND e)
-		{
-			error_msg = e.get_message();
-		}
-		catch (INVALIDFORMAT e)
-		{
-			error_msg = e.get_message();
-		}
 	}
 	if (btn2.clicked == true)
 	{
@@ -269,14 +272,6 @@ void Gui::draw_equations()
 		catch (FORMATERROR e)
 		{
 			error_msg = e.message();
-		}
-		catch (INVALIDOPERAND e)
-		{
-			error_msg = e.get_message();
-		}
-		catch (INVALIDFORMAT e)
-		{
-			error_msg = e.get_message();
 		}
 	}
 	if (btn3.clicked == true)
@@ -293,14 +288,6 @@ void Gui::draw_equations()
 		{
 			error_msg = e.message();
 		}
-		catch (INVALIDOPERAND e)
-		{
-			error_msg = e.get_message();
-		}
-		catch (INVALIDFORMAT e)
-		{
-			error_msg = e.get_message();
-		}
 	}
 	if (btn4.clicked == true)
 	{
@@ -315,14 +302,6 @@ void Gui::draw_equations()
 		catch (FORMATERROR e)
 		{
 			error_msg = e.message();
-		}
-		catch (INVALIDOPERAND e)
-		{
-			error_msg = e.get_message();
-		}
-		catch (INVALIDFORMAT e)
-		{
-			error_msg = e.get_message();
 		}
 	}
 

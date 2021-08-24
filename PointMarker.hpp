@@ -34,11 +34,3 @@ public:
 	//private:
 	//void showPointTag(sf::RenderWindow& window);
 };
-
-// void PointMarker::showPointTag(sf::RenderWindow& window)
-// {
-// 	// sf::Text poitDim;
-// 	// sf::RectangleShape tagBg(sf::Vector2f(TAG_HEIGHT, TAG_WIDTH));
-// 	// tagBg.setPosition(this->x + TAG_DISPLACEMENT, this->y + TAG_DISPLACEMENT);
-// 	//pointDim.setString(strcat("(",static_cast<string>this))
-// }

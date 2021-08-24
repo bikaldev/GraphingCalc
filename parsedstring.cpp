@@ -27,6 +27,7 @@ string Tokenizer::nextToken()
 		}
 
 		// For operator, as it only has one character, so parse only one character out of the next string
+		//if the previous terms are also an operator we need to think about it.
 		case token::OPERATOR: {
 			s.assign(_s, _pos, 1);
 			_pos++;
@@ -106,10 +107,8 @@ token::TokenType Tokenizer::stringType()
 	int operator_pos = operators.find(_s[_pos]);
 	int left_pos = left.find(_s[_pos]);
 	int right_pos = right.find(_s[_pos]);
-	//int space_pos = space.find(_s[_pos]);
-	//int comma_pos = comma.find(_s[_pos]);
 	int letter_pos = letters.find(_s[_pos]);
-
+	//-1 is the resutl if nothing is found
 	if (operand_pos != -1)
 		_type = token::OPERAND;
 

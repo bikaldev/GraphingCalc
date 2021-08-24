@@ -55,6 +55,7 @@ CurveInfo StringEvaluator::evaluate(std::string str)
 	}
 	if (findEqual(info.equation))
 	{
+		std::cout<<"equal not found"<<std::endl;
 		throw FORMATERROR();
 		info.type = None;
 		info.equation = "";
