@@ -22,7 +22,7 @@ class FORMATERROR
 public:
 	std::string message()
 	{
-		return "Wrong Format! Should be either in y = f(x), x = f(y) or f(x,y) = 0";
+		return "Wrong Format! Should be either in y = f(x), x = f(y) or f(x,y) = const";
 	}
 };
 
@@ -32,6 +32,7 @@ struct CurveInfo
 	std::string equation;
 	sf::Color color;
 	textboxId id;
+	double constant;
 };
 
 class StringEvaluator

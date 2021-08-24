@@ -1,11 +1,13 @@
 #include "ImplicitPlotter.hpp"
 
-ImplicitPlotter::ImplicitPlotter(WindowSize w, sf::Vector2f org, sf::Color col)
+ImplicitPlotter::ImplicitPlotter(WindowSize w, sf::Vector2f org, double c, sf::Color col)
 {
 	win = w;
 	origin = org;
 	color = col;
-	h = 0.0;
+	h = c;
+	N_X = 200;
+	N_Y = 200;
 	dx = 40 / (double)(N_X - 1); //2z/(N_X-1)
 	dy = 40 / (double)(N_Y - 1); //2z/(N_Y-1)
 }
@@ -13,6 +15,20 @@ ImplicitPlotter::ImplicitPlotter(WindowSize w, sf::Vector2f org, sf::Color col)
 double ImplicitPlotter::map(double value, double istart, double istop, double ostart, double ostop)
 {
 	return ostart + (ostop - ostart) * ((value - istart) / (istop - istart));
+}
+
+//increase GridNumber with change in amplitude
+void ImplicitPlotter::increaseGridNumber() {
+	if(N_X>=500)
+		return;
+	N_X += 50;
+	N_Y += 50;
+}
+void ImplicitPlotter::decreaseGridNumber() {
+	if(N_X <= 200)
+		return;
+	N_X -=50;
+	N_Y -= 50;
 }
 //we need to change stuff here as well
 void ImplicitPlotter::display(std::string s, sf::RenderWindow& window)
@@ -109,7 +125,7 @@ void ImplicitPlotter::draw_one(int n, int i, int j, double a, double b, double c
 		default:
 			break;
 	}
-	
+
 	x1 = map(x1, win.ActualRange._x, win.ActualRange._y, win.MagnifiedRange._x, win.MagnifiedRange._y) + origin.x;
 	y1 = map(y1, win.ActualRange._x, win.ActualRange._y, win.MagnifiedRange._x, win.MagnifiedRange._y) + origin.y;
 	x2 = map(x2, win.ActualRange._x, win.ActualRange._y, win.MagnifiedRange._x, win.MagnifiedRange._y) + origin.x;
@@ -143,7 +159,7 @@ void ImplicitPlotter::draw_opposite(int n, int i, int j, double a, double b, dou
 		default:
 			break;
 	}
-	
+
 	x1 = map(x1, win.ActualRange._x, win.ActualRange._y, win.MagnifiedRange._x, win.MagnifiedRange._y) + origin.x;
 	y1 = map(y1, win.ActualRange._x, win.ActualRange._y, win.MagnifiedRange._x, win.MagnifiedRange._y) + origin.y;
 	x2 = map(x2, win.ActualRange._x, win.ActualRange._y, win.MagnifiedRange._x, win.MagnifiedRange._y) + origin.x;

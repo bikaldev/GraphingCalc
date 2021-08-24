@@ -1,6 +1,6 @@
 
-#define N_X 200
-#define N_Y 200
+// #define N_X 200
+// #define N_Y 200
 #define OX (-20 + i * dx)
 //#define OX(-z + i * dx) this is the code when range is provided by the user
 //#define OY(z - j * dy) this is the code when range is provided by the user
@@ -17,6 +17,8 @@
 class ImplicitPlotter
 {
 private:
+	int N_X;
+	int N_Y;
 	std::vector<std::vector<double>> data;
 	sf::Vector2f origin;
 	WindowSize win;
@@ -37,7 +39,9 @@ private:
 
 public:
 	ImplicitPlotter() = default;
-	ImplicitPlotter(WindowSize w, sf::Vector2f org, sf::Color col = sf::Color::Red);
+	ImplicitPlotter(WindowSize w, sf::Vector2f org, double c = 0.0, sf::Color col = sf::Color::Red);
 	//the string has been taken here.
 	void display(std::string s, sf::RenderWindow& window);
+	void increaseGridNumber();
+	void decreaseGridNumber();
 };

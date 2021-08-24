@@ -130,12 +130,12 @@ void Grapher::draw(sf::RenderWindow& window)
 	}
 	catch (INVALIDOPERAND e)
 	{
-		std::cout << "Error at Grapher/draw: " << e.get_message() << std::endl;
+		// std::cout << "Error at Grapher/draw: " << e.get_message() << std::endl;
 		throw;
 	}
 	catch (INVALIDFORMAT e)
 	{
-		std::cout << "Error at Grapher/draw" << e.get_message() << std::endl;
+		// std::cout << "Error at Grapher/draw" << e.get_message() << std::endl;
 		throw;
 	}
 }
@@ -256,12 +256,12 @@ void Grapher::drawYDepCurve(CurveInfo info, sf::RenderWindow& window)
 	}
 	catch (INVALIDOPERAND e)
 	{
-		std::cout << "Error at Grapher/drawYdep: " << e.get_message() << std::endl;
+		// std::cout << "Error at Grapher/drawYdep: " << e.get_message() << std::endl;
 		throw;
 	}
 	catch (INVALIDFORMAT e)
 	{
-		std::cout << "Error at Grapher/drawYdep" << e.get_message() << std::endl;
+		// std::cout << "Error at Grapher/drawYdep" << e.get_message() << std::endl;
 		throw;
 	}
 }
@@ -293,9 +293,15 @@ void Grapher::drawImplicitCurve(CurveInfo info, sf::RenderWindow& window)
 	DefaultWindow.plane.height = size;
 	DefaultWindow.plane.top = origin.y;
 	DefaultWindow.plane.left = origin.x;
+
+	int noOfincrease = (amplitude / 19 > 1) ? static_cast<int>((amplitude / 19) / 1.5) : 0;
+	int noOfdecrease = (amplitude / 19 < 1) ? static_cast<int>((19 / amplitude) / 1.5) : 0;
 	try
 	{
-		ImplicitPlotter(DefaultWindow, origin, info.color).display(info.equation, window);
+		ImplicitPlotter plot(DefaultWindow, origin, info.constant, info.color);
+		for (int i = 0; i < noOfincrease; i++) plot.increaseGridNumber();
+		for(int i= 0; i<noOfdecrease; i++) plot.decreaseGridNumber();
+		plot.display(info.equation, window);
 	}
 	catch (INVALIDOPERAND e)
 	{

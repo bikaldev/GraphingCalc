@@ -48,14 +48,35 @@ CurveInfo StringEvaluator::evaluate(std::string str)
 	else
 	{
 		//std::cout << "Implicit" << std::endl;
-		info.equation.assign(str.begin(), str.end() - 2);
+		unsigned pos;
+		for (unsigned i = str.length(); i > 0; i--)
+		{
+			if (str[i] == '=')
+			{
+				std::string temp;
+				temp.assign(str.begin() + i + 1, str.end());
+				std::cout << "temp: " << temp << std::endl;
+				try
+				{
+					info.constant = stod(temp);
+				}
+				catch (...)
+				{
+					throw FORMATERROR();
+				}
+				pos = i;
+				break;
+			}
+		}
+		info.equation.assign(str.begin(), str.begin() + pos);
 		info.type = Implicit;
 
 		//implicit
 	}
 	if (findEqual(info.equation))
 	{
-		std::cout<<"equal not found"<<std::endl;
+		std::cout << "equal found" << std::endl;
+		std::cout << info.equation << std::endl;
 		throw FORMATERROR();
 		info.type = None;
 		info.equation = "";
