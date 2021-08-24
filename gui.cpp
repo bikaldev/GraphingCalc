@@ -147,6 +147,7 @@ void Gui::main()
 		try
 		{
 			graph.draw(window);
+			error_msg = "";
 		}
 		catch (INVALIDOPERAND e)
 		{
