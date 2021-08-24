@@ -33,7 +33,7 @@ public:
 	void fitPoints();
 	void takeInput(sf::Event& evnt, sf::RenderWindow& window);
 	void takePoint(double x, double y);
-
+	void clear();
 	//destructor
 	~PointPlot()
 	{}

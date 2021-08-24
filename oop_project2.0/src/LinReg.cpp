@@ -71,7 +71,7 @@ void LinReg::TrainModel(int d, Fit::FitType tag)
 	}
 	catch (ORDEREXCEPTION e)
 	{
-		std::cerr << e.message() << std::endl;
+		std::cout << e.message() << std::endl;
 	}
 }
 
@@ -99,7 +99,7 @@ void LinReg::drawFittedCurve(sf::RenderWindow& window)
 	for (double i = DefaultWindow.ActualRange._x; i <= DefaultWindow.ActualRange._y; i += 0.01)
 	{
 		//std::cout<<"\n\n\n\n\n\n\nnope, I am the one being used\n\n\n\n\n\n\n\n\n\n";
-		b = convertor::Convert(Points(i, hypothesis(i)), DefaultWindow);
+		b = convertor::Convert(Points(i, -hypothesis(i)), DefaultWindow);
 		c.push_back(b);
 	}
 

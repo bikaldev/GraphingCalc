@@ -139,6 +139,7 @@ void PointPlot::fitPoints()
 	int length = static_cast<int>(this->X.size());
 	if (length <= 0)
 	{
+		isDrawOn = false;
 		return;
 	}
 	Matrix X_mat(length, 1);
@@ -148,4 +149,9 @@ void PointPlot::fitPoints()
 	LinReg L(X_mat, y_mat, origin, offset, size, amplitude);
 	L.TrainModel(degree);
 	this->LinearReg = L;
+}
+
+void PointPlot::clear() {
+	this->X.clear();
+	this->Y.clear();
 }

@@ -70,4 +70,5 @@ public:
 	void setFont(std::string path);
 	void listenForText(sf::Event& event);
 	void listenForClick(sf::RenderWindow& window);
+	void clear();
 };

@@ -29,15 +29,14 @@ Gui::Gui()
 	pointbox[18] = new Column(sf::Vector2f { 245.f, 450.f }, "assets/arial.ttf");
 	pointbox[19] = new Column(sf::Vector2f { 310.f, 450.f }, "assets/arial.ttf");
 
-	degree =  new Textbox(sf::Vector2f{40.f, 30.f}, sf::Vector2f{250.f, 550.f}, "assets/arial.ttf");
+	degree = new Textbox(sf::Vector2f { 40.f, 30.f }, sf::Vector2f { 250.f, 550.f }, "assets/arial.ttf");
 	//sf::Font font;
-    font.loadFromFile("assets/arial.ttf");
-    deg.setFont(font);
+	font.loadFromFile("assets/arial.ttf");
+	deg.setFont(font);
 	deg.setString("Degree:");
 	deg.setPosition(sf::Vector2f(180.f, 550.f));
 	deg.setFillColor(sf::Color::Black);
 	deg.setCharacterSize(20);
-
 
 	window.create(sf::VideoMode(1280.0f, 720.0f), "Graph Layout", sf::Style::Default);
 	graph = Grapher(sf::Vector2f(1280.0f, 720.0f), sf::Vector2f(0.0f, 0.0f));
@@ -113,10 +112,21 @@ Gui::Gui()
 	add_button.Create();
 	add_button.setPosition(50.f, 600.f);
 
+	//zooming button initialization
+	zoomIn.setLabel("+");
+	zoomOut.setLabel("-");
+
+	zoomIn.Create();
+	zoomOut.Create();
+
+	zoomIn.setPosition(0.95 * VIEW_WIDTH, 0.05 * VIEW_HEIGHT);
+	zoomOut.setPosition(0.95 * VIEW_WIDTH, 0.15 * VIEW_HEIGHT);
+
 	//Error handling elements initialization
+	error.setFont(font);
 	error_msg = "";
 	error.setString(error_msg);
-	error.setPosition(sf::Vector2f(0.3 * VIEW_WIDTH, 0.95 * VIEW_WIDTH));
+	error.setPosition(sf::Vector2f(0.2 * VIEW_WIDTH, 0.9 * VIEW_HEIGHT));
 	error.setFillColor(sf::Color::Red);
 	error.setCharacterSize(25);
 
@@ -131,6 +141,8 @@ void Gui::main()
 	{
 
 		window.clear();
+		zoomIn.listen(window);
+		zoomOut.listen(window);
 		graph.drawLayout(window, true);
 		graph.draw(window);
 		graph.listenToStaticEvents(window);
@@ -142,27 +154,8 @@ void Gui::main()
 			tb3->listenForText(evnt);
 			tb4->listenForText(evnt);
 
-			//for some reason this is not working
-			pointbox[0]->listenforText(evnt);
-			pointbox[1]->listenforText(evnt);
-			pointbox[2]->listenforText(evnt);
-			pointbox[3]->listenforText(evnt);
-			pointbox[4]->listenforText(evnt);
-			pointbox[5]->listenforText(evnt);
-			pointbox[6]->listenforText(evnt);
-			pointbox[7]->listenforText(evnt);
-			pointbox[8]->listenforText(evnt);
-			pointbox[9]->listenforText(evnt);
-			pointbox[10]->listenforText(evnt);
-			pointbox[11]->listenforText(evnt);
-			pointbox[12]->listenforText(evnt);
-			pointbox[13]->listenforText(evnt);
-			pointbox[14]->listenforText(evnt);
-			pointbox[15]->listenforText(evnt);
-			pointbox[16]->listenforText(evnt);
-			pointbox[17]->listenforText(evnt);
-			pointbox[18]->listenforText(evnt);
-			pointbox[19]->listenforText(evnt);
+			for (int i = 0; i < 20; i++)
+				pointbox[i]->listenforText(evnt);
 
 			degree->listenForText(evnt);
 
@@ -175,6 +168,15 @@ void Gui::main()
 				default:
 					break;
 			}
+		}
+
+		if (zoomIn.clicked == true)
+		{
+			graph.zoomIn();
+		}
+		if (zoomOut.clicked == true)
+		{
+			graph.zoomOut();
 		}
 
 		eqns.listen(window);
@@ -205,11 +207,18 @@ void Gui::main()
 			}
 		}
 
+		//zooming
+		window.draw(zoomIn.Sprite);
+		window.draw(zoomIn.Label);
+		window.draw(zoomOut.Sprite);
+		window.draw(zoomOut.Label);
+
 		window.draw(eqns.Sprite);
 		window.draw(eqns.Label);
 		window.draw(ptns.Sprite);
 		window.draw(ptns.Label);
-
+		//error display
+		error.setString(error_msg);
 		window.draw(error);
 
 		window.display();
@@ -232,10 +241,19 @@ void Gui::draw_equations()
 		try
 		{
 			graph.addCurve(tb1->getString(), 1);
+			error_msg = "";
 		}
 		catch (FORMATERROR e)
 		{
 			error_msg = e.message();
+		}
+		catch (INVALIDOPERAND e)
+		{
+			error_msg = e.get_message();
+		}
+		catch (INVALIDFORMAT e)
+		{
+			error_msg = e.get_message();
 		}
 	}
 	if (btn2.clicked == true)
@@ -246,10 +264,19 @@ void Gui::draw_equations()
 		try
 		{
 			graph.addCurve(tb2->getString(), 2);
+			error_msg = "";
 		}
 		catch (FORMATERROR e)
 		{
 			error_msg = e.message();
+		}
+		catch (INVALIDOPERAND e)
+		{
+			error_msg = e.get_message();
+		}
+		catch (INVALIDFORMAT e)
+		{
+			error_msg = e.get_message();
 		}
 	}
 	if (btn3.clicked == true)
@@ -260,10 +287,19 @@ void Gui::draw_equations()
 		try
 		{
 			graph.addCurve(tb3->getString(), 3);
+			error_msg = "";
 		}
 		catch (FORMATERROR e)
 		{
 			error_msg = e.message();
+		}
+		catch (INVALIDOPERAND e)
+		{
+			error_msg = e.get_message();
+		}
+		catch (INVALIDFORMAT e)
+		{
+			error_msg = e.get_message();
 		}
 	}
 	if (btn4.clicked == true)
@@ -274,10 +310,19 @@ void Gui::draw_equations()
 		try
 		{
 			graph.addCurve(tb4->getString(), 4);
+			error_msg = "";
 		}
 		catch (FORMATERROR e)
 		{
 			error_msg = e.message();
+		}
+		catch (INVALIDOPERAND e)
+		{
+			error_msg = e.get_message();
+		}
+		catch (INVALIDFORMAT e)
+		{
+			error_msg = e.get_message();
 		}
 	}
 
@@ -391,7 +436,6 @@ void Gui::draw_points()
 	{
 		pointbox_count++;
 		pointbox_added = true;
-		
 	}
 
 	pointbox[0]->draw(window);
@@ -505,94 +549,112 @@ void Gui::draw_points()
 	{
 		if (col_1_added == true)
 		{
+			graph.clearPoints();
 			if (col_1_count > 4)
 				col_1_count = 4;
 			for (unsigned i = 0; i <= col_1_count; i++)
 			{
-				pointbox[i]->getPoint();
-				if (pointbox[i]->isInvalid() == true)
-				{
-					//handle the error of invalid
-				}
-				if (!pointbox[i]->isEmpty() && !pointbox[i]->isInvalid())
-				{
-					graph.takePoint(pointbox[i]->getX(), pointbox[i]->getY());
-				}
+				// pointbox[i]->getPoint();
+				// if (pointbox[i]->isInvalid() == true)
+				// {
+				// 	//handle the error of invalid
+				// }
+				// if (!pointbox[i]->isEmpty() && !pointbox[i]->isInvalid())
+				// {
+				// 	graph.takePoint(pointbox[i]->getX(), pointbox[i]->getY());
+				// }
+				pointEvaluate(pointbox[i]);
 			}
 			//the degree from the degree field has to be sent as an argument:
-			// graph.fitPoints(degree);
-			degree_val = stod(degree->getString());
-			
-			graph.fitPoints(degree_val);
+			// if ((degree->getString()).length() == 0)
+			// {
+			// 	degree_val = 1;
+			// }
+			// else
+			// {
+			// 	try
+			// 	{
+			// 		degree_val = stod(degree->getString());
+			// 	}
+			// 	catch (std::invalid_argument e)
+			// 	{
+			// 		error_msg = "Invalid arguments in the point field";
+			// 	}
+			// }
+
+			// graph.fitPoints(degree_val);
+			degreeEvaluate(degree->getString());
 		}
 	}
 	if (point_plot_2.clicked == true)
 	{
 		if (col_2_added == true)
 		{
+			graph.clearPoints();
 			if (col_2_count > 4)
 				col_2_count = 4;
 			for (unsigned i = 0; i <= 5 * 1 + col_2_count; i++)
 			{
-				pointbox[i]->getPoint();
-				if (pointbox[i]->isInvalid() == true)
-				{
-					//handle the error of invalid
-				}
-				if (!pointbox[i]->isEmpty() && !pointbox[i]->isInvalid())
-				{
-					graph.takePoint(pointbox[i]->getX(), pointbox[i]->getY());
-				}
+				// pointbox[i]->getPoint();
+				// if (pointbox[i]->isInvalid() == true)
+				// {
+				// 	//handle the error of invalid
+				// }
+				// if (!pointbox[i]->isEmpty() && !pointbox[i]->isInvalid())
+				// {
+				// 	graph.takePoint(pointbox[i]->getX(), pointbox[i]->getY());
+				// }
+				pointEvaluate(pointbox[i]);
 			}
-			degree_val = stod(degree->getString());
-			
-			graph.fitPoints(degree_val);
+			degreeEvaluate(degree->getString());
 		}
 	}
 	if (point_plot_3.clicked == true)
 	{
 		if (col_3_added == true)
 		{
+			graph.clearPoints();
 			if (col_3_count > 4)
 				col_3_count = 4;
 			for (unsigned i = 0; i <= 5 * 2 + col_3_count; i++)
 			{
-				pointbox[i]->getPoint();
-				if (pointbox[i]->isInvalid() == true)
-				{
-					//handle the error of invalid
-				}
-				if (!pointbox[i]->isEmpty() && !pointbox[i]->isInvalid())
-				{
-					graph.takePoint(pointbox[i]->getX(), pointbox[i]->getY());
-				}
+				// pointbox[i]->getPoint();
+				// if (pointbox[i]->isInvalid() == true)
+				// {
+				// 	//handle the error of invalid
+				// }
+				// if (!pointbox[i]->isEmpty() && !pointbox[i]->isInvalid())
+				// {
+				// 	graph.takePoint(pointbox[i]->getX(), pointbox[i]->getY());
+				// }
+				pointEvaluate(pointbox[i]);
 			}
-			degree_val = stod(degree->getString());
-			
-			graph.fitPoints(degree_val);
+
+			degreeEvaluate(degree->getString());
 		}
 	}
 	if (point_plot_4.clicked == true)
 	{
 		if (col_4_added == true)
 		{
+			graph.clearPoints();
 			if (col_4_count > 4)
 				col_4_count = 4;
 			for (unsigned i = 0; i <= 5 * 3 + col_4_count; i++)
 			{
-				pointbox[i]->getPoint();
-				if (pointbox[i]->isInvalid() == true)
-				{
-					//handle the error of invalid
-				}
-				if (!pointbox[i]->isEmpty() && !pointbox[i]->isInvalid())
-				{
-					graph.takePoint(pointbox[i]->getX(), pointbox[i]->getY());
-				}
+				// pointbox[i]->getPoint();
+				// if (pointbox[i]->isInvalid() == true)
+				// {
+				// 	//handle the error of invalid
+				// }
+				// if (!pointbox[i]->isEmpty() && !pointbox[i]->isInvalid())
+				// {
+				// 	graph.takePoint(pointbox[i]->getX(), pointbox[i]->getY());
+				// }
+				pointEvaluate(pointbox[i]);
 			}
-			degree_val = stod(degree->getString());
-			
-			graph.fitPoints(degree_val);
+
+			degreeEvaluate(degree->getString());
 		}
 	}
 
@@ -604,6 +666,43 @@ void Gui::draw_points()
 	window.draw(point_plot_1.Label);
 	window.draw(*degree);
 	window.draw(deg);
+}
+
+void Gui::pointEvaluate(Column* pointbox)
+{
+	pointbox->getPoint();
+	if (pointbox->isInvalid() == true)
+	{
+		//handle the error of invalid
+		error_msg = "Invalid argument in the point field.";
+	}
+	if (!pointbox->isEmpty() && !pointbox->isInvalid())
+	{
+		error_msg = "";
+		graph.takePoint(pointbox->getX(), pointbox->getY());
+	}
+}
+
+void Gui::degreeEvaluate(std::string inputDeg)
+{
+	if ((inputDeg).length() == 0)
+	{
+		degree_val = 1;
+	}
+	else
+	{
+		try
+		{
+			degree_val = stod(inputDeg);
+			error_msg = "";
+		}
+		catch (std::invalid_argument e)
+		{
+			error_msg = "Invalid arguments in the point field";
+		}
+	}
+
+	graph.fitPoints(degree_val);
 }
 
 Gui::~Gui()

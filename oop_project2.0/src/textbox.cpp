@@ -292,3 +292,9 @@ void Textbox::draw(sf::RenderTarget& target, sf::RenderStates states) const
 	target.draw(t_text, states);
 	cursor_iteration_count++;
 }
+
+void Textbox::clear(){
+    t_string = "";
+    t_text.setString(t_string);
+    t_cursor_position = 0;
+}

@@ -3,6 +3,7 @@
 #include "button.hpp"
 #include "column.hpp"
 #include "textbox.hpp"
+#include "smallbutton.hpp"
 #include <SFML/Graphics.hpp>
 #include <cmath>
 #include <iostream>
@@ -47,25 +48,23 @@ private:
 
 	float point_cell_gap = 15.f;
 	float pointboxes_gap = 50.f;
-	
 
 	//these are for the equation plot
 	Textbox* tb1;
 	Button btn1;
-	std::string val_1 = " ";
+	//std::string val_1 = " ";
 
 	Textbox* tb2;
 	Button btn2;
-	std::string val_2 = " ";
+	//std::string val_2 = " ";
 
 	Textbox* tb3;
 	Button btn3;
-	std::string val_3 = " ";
+	//std::string val_3 = " ";
 
 	Textbox* tb4;
 	Button btn4;
-	std::string val_4 = " ";
-
+	//std::string val_4 = " ";
 
 	Textbox* degree;
 	int degree_val = 1;
@@ -85,7 +84,7 @@ private:
 	Button add_button;
 
 	Button fit_button;
-	
+
 	Column* pointbox[20];
 
 	sf::RenderWindow window;
@@ -111,6 +110,10 @@ private:
 
 	sf::Font font;
 
+	//Zooming buttons
+	smallButton zoomIn;
+	smallButton zoomOut;
+
 public:
 	Gui();
 	void main();
@@ -118,4 +121,8 @@ public:
 	void draw_points();
 	void draw_col();
 	~Gui();
+
+private:
+	void pointEvaluate(Column* pointbox);
+	void degreeEvaluate(std::string inputDeg);
 };

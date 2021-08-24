@@ -26,10 +26,13 @@ double Operator::evaluate(const double& left, const double& right)
 	{
 		case '+': {
 			output = left + right;
+			std::cout<<output<<std::endl;
 			break;
 		}
 		case '-': {
 			output = left - right;
+			//std::cout<<"i am being used"<<std::endl;
+			std::cout<<output<<std::endl;
 			break;
 		}
 		case '*': {
