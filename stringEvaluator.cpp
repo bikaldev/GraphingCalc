@@ -1,4 +1,4 @@
-#include "stringEvaluator.hpp"
+#include "include/stringEvaluator.hpp"
 
 bool StringEvaluator::findEqual(std::string str)
 {
@@ -55,7 +55,7 @@ CurveInfo StringEvaluator::evaluate(std::string str)
 			{
 				std::string temp;
 				temp.assign(str.begin() + i + 1, str.end());
-				std::cout << "temp: " << temp << std::endl;
+				// std::cout << "temp: " << temp << std::endl;
 				try
 				{
 					info.constant = stod(temp);
@@ -75,8 +75,8 @@ CurveInfo StringEvaluator::evaluate(std::string str)
 	}
 	if (findEqual(info.equation))
 	{
-		std::cout << "equal found" << std::endl;
-		std::cout << info.equation << std::endl;
+		// std::cout << "equal found" << std::endl;
+		// std::cout << info.equation << std::endl;
 		throw FORMATERROR();
 		info.type = None;
 		info.equation = "";

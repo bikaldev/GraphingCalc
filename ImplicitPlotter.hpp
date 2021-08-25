@@ -7,7 +7,7 @@
 #define OY (20 - j * dy)
 #include "BezierQuad.hpp"
 #include "points.hpp"
-#include "shuntingyard.hpp"
+#include "Parser.hpp"
 #include "windowsize.hpp"
 #include <SFML/Graphics.hpp>
 #include <iostream>

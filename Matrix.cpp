@@ -1,4 +1,4 @@
-#include "Matrix.hpp"
+#include "include/Matrix.hpp"
 
 void Matrix::setElement(int a, int b, double val)
 {

@@ -1,4 +1,4 @@
-#include "variable.hpp"
+#include "include/variable.hpp"
 
 // Constructor
 Variable::Variable(char v) :

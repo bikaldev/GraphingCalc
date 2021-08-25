@@ -1,4 +1,4 @@
-#include "rightbracket.hpp"
+#include "include/rightbracket.hpp"
 
 // Constructor
 RightBracket::RightBracket(char t)

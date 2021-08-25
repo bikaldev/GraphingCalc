@@ -1,5 +1,6 @@
-#include "etp.hpp"
-#include "windowsize.hpp"
+
+#include "include/etp.hpp"
+#include "include/windowsize.hpp"
 
 std::vector<Points> convertor::Plotytox(std::string s, WindowSize& p)
 {

@@ -1,4 +1,4 @@
-#include "operator.hpp"
+#include "include/operator.hpp"
 
 // Constructor
 Operator::Operator(char o) :
@@ -26,13 +26,13 @@ double Operator::evaluate(const double& left, const double& right)
 	{
 		case '+': {
 			output = left + right;
-			std::cout<<output<<std::endl;
+			//std::cout<<output<<std::endl;
 			break;
 		}
 		case '-': {
 			output = left - right;
 			//std::cout<<"i am being used"<<std::endl;
-			std::cout<<output<<std::endl;
+			//std::cout<<output<<std::endl;
 			break;
 		}
 		case '*': {
@@ -68,7 +68,7 @@ double Operator::evaluate(const double& left, const double& right)
 	}
 	return output;
 }
-
+//perhaps we can convert this into a map and it should be easier to evaluate the expression.
 // Get the precendence from different types of operators
 int Operator::getPrecendence()
 {

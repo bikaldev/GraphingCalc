@@ -1,4 +1,4 @@
-#include "LinReg.hpp"
+#include "include/LinReg.hpp"
 
 void LinReg::setOrigin(sf::Vector2f org)
 {

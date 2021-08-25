@@ -7,9 +7,6 @@ class smallButton {
 	sf::Texture Idle;
 	sf::Texture Hover;
 	sf::Texture Click;
-	//sf::Texture small_Idle;
-	//sf::Texture small_Hover;
-	//sf::Texture small_Click;
 	sf::Font Font;
 	float x = 0;
 	float y = 0;
@@ -36,8 +33,8 @@ public:
 	std::string hoverLabel = label;
 	void Create() {
 		Idle.loadFromFile("assets/small_idle.png");
-		Hover.loadFromFile("assets/small_idle.png");
-		Click.loadFromFile("assets/small_idle.png");
+		Hover.loadFromFile("assets/small_hover.png");
+		Click.loadFromFile("assets/small_click.png");
 		Font.loadFromFile("assets/arial.ttf");
 		Label.setFont(Font);
 		Label.setCharacterSize(25);
@@ -48,6 +45,8 @@ public:
 		if (Label.getLocalBounds().height <= 5) { fineAdjust = 0; }
 		if (Label.getLocalBounds().height >= 50) { fineAdjust = 20; }
 		Label.setOrigin(sf::Vector2f(((Sprite.getLocalBounds().width - Label.getLocalBounds().width) / 2) * (-1), ((Sprite.getLocalBounds().height - (Label.getLocalBounds().height - fineAdjust) * 1.7) / 2) * (-1)+10.f));
+		std::cout<<Sprite.getLocalBounds().height<<std::endl;
+		std::cout<<Sprite.getLocalBounds().width<<std::endl;
 	}
 	void setState(std::string type) {
 		if (type == "Idle") {

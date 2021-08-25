@@ -1,4 +1,4 @@
-#include "PointMarker.hpp"
+#include "include/PointMarker.hpp"
 
 void PointMarker::setFillColor(sf::Color c)
 {

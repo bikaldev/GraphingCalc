@@ -1,4 +1,5 @@
-#include "LinRegException.hpp"
+
+#include "include/LinRegException.hpp"
 
 INSUFFICIENTSAMPLE::INSUFFICIENTSAMPLE(std::string s)
 {
