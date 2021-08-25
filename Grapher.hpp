@@ -1,5 +1,6 @@
 #pragma once
 #include "CurveDrawer.hpp"
+#include "CurveDrawer_parser.hpp"
 #include "PointPlot.hpp"
 #include <SFML/Graphics.hpp>
 #include <cmath>
@@ -108,7 +109,7 @@ void Grapher::zoomInandOut(Zoom z_type, float factor)
 void Grapher::drawBackground(sf::RenderWindow& window)
 {
 	sf::RectangleShape Background(sf::Vector2f(size, size));
-	Background.setFillColor(sf::Color(23, 23, 23));
+	Background.setFillColor(sf::Color::White);
 	Background.setPosition(this->offset);
 
 	window.draw(Background);
@@ -120,14 +121,14 @@ void Grapher::drawAxes(sf::RenderWindow& window)
 	{
 		sf::RectangleShape y_axis(sf::Vector2f(2, size));
 		y_axis.setPosition(sf::Vector2f(origin.x, this->offset.y));
-		y_axis.setFillColor(sf::Color::White);
+		y_axis.setFillColor(sf::Color::Black);
 		window.draw(y_axis);
 	}
 	if (this->origin.y <= this->offset.y + size && this->origin.y >= this->offset.y)
 	{
 		sf::RectangleShape x_axis(sf::Vector2f(size, 2.5));
 		x_axis.setPosition(sf::Vector2f(this->offset.x, origin.y));
-		x_axis.setFillColor(sf::Color::White);
+		x_axis.setFillColor(sf::Color::Black);
 		window.draw(x_axis);
 	}
 }
@@ -139,7 +140,7 @@ void Grapher::drawGrid(sf::RenderWindow& window)
 	while (grid_offset < (size + this->offset.x - origin.x))
 	{
 		sf::RectangleShape grid(sf::Vector2f(1, size));
-		grid.setFillColor(sf::Color(200, 200, 200));
+		grid.setFillColor(sf::Color(150, 150, 150));
 		grid.setPosition(origin.x + grid_offset, this->offset.y);
 		window.draw(grid);
 		grid_offset += this->grid_spacing * aspectRatio;
@@ -190,7 +191,7 @@ void Grapher::drawLayout(sf::RenderWindow& window, bool isGridOn)
 
 void Grapher::drawCurve(double (*f)(double), sf::RenderWindow& window)
 {
-	CurveDrawer(this->origin, this->offset, size, this->amplitude, 200, 8).draw(f, window);
+	CurveDrawerParser(this->origin, this->offset, size, this->amplitude + (f(10) * 0), 200, 8).draw(window);
 }
 
 void Grapher::listenToLazyEvent(sf::Event& evnt, sf::RenderWindow& window)
