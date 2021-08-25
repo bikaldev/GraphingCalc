@@ -1,4 +1,4 @@
-#include "PointPlot.hpp"
+#include "include/PointPlot.hpp"
 
 PointPlot::PointPlot()
 {
